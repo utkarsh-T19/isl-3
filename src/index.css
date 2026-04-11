@@ -222,16 +222,18 @@ p { line-height: 1.6; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 16px auto;
-    padding: 10px 18px;
-    max-width: 900px;
+    gap: 8px;
+    margin: 12px auto;
+    padding: 8px 16px;
+    max-width: 1080px;
+    width: calc(100% - 32px);
     background: var(--surface-2);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
     border: 1px solid var(--border);
     border-radius: var(--radius-full);
     position: sticky;
-    top: 16px;
+    top: 12px;
     z-index: 100;
     box-shadow: var(--shadow);
   }
@@ -259,24 +261,43 @@ p { line-height: 1.6; }
   font-size: 13px;
 }
 
-.top-nav-links { display: flex; gap: 4px; align-items: center; }
+.top-nav-links { display: flex; gap: 2px; align-items: center; flex: 1; justify-content: center; }
 
 .nav-link {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
+  gap: 5px;
+  padding: 7px 11px;
   border-radius: var(--radius-full);
   text-decoration: none;
   color: var(--text-2);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 .nav-link:hover  { background: var(--surface-hover); color: var(--text); }
 .nav-link.active {
   background: var(--yellow);
   color: #0E0C00;
+}
+
+/* ── Yellow House badge ─────────────────────────────────────────────────── */
+.yh-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: var(--yellow-subtle);
+  border: 1px solid var(--border-strong);
+  color: var(--yellow);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-transform: uppercase;
 }
 
 /* ═══ Bottom Navigation (Mobile) ═══════════════════════════════════════════ */
@@ -288,14 +309,19 @@ p { line-height: 1.6; }
   right: 0;
   height: var(--bottom-nav-h);
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: rgba(14, 12, 0, 0.92);
+  background: rgba(14, 12, 0, 0.95);
   backdrop-filter: var(--blur);
   -webkit-backdrop-filter: var(--blur);
   border-top: 1px solid var(--border);
   z-index: 100;
-  justify-content: space-around;
   align-items: center;
+  /* Scrollable so all 7 tabs fit without squishing */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+.bottom-nav::-webkit-scrollbar { display: none; }
 @media (min-width: 768px) {
   .bottom-nav { display: none; }
 }
@@ -305,15 +331,17 @@ p { line-height: 1.6; }
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 8px 12px;
+  padding: 8px 10px;
   text-decoration: none;
   color: var(--text-3);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   transition: color 0.15s ease;
-  flex: 1;
+  /* Fixed min-width so all 7 tabs are always reachable by scrolling */
+  min-width: 60px;
+  flex-shrink: 0;
   border-radius: var(--radius-md);
 }
 .bottom-nav-item.active { color: var(--yellow); }

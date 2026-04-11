@@ -2,11 +2,36 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { TEAMS, ALL_SPORTS, SPORTS } from '../data/constants';
 import { FIXTURES } from '../data/leagueData';
-import { Calendar } from 'lucide-react';
+import { Calendar, X } from 'lucide-react';
+import CustomSelect from '../components/CustomSelect';
 
 const FIXTURE_SPORTS = [...SPORTS.outdoor, ...SPORTS.indoor];
 const getTeam  = (id) => TEAMS.find((t) => t.id === id);
 const getSport = (id) => ALL_SPORTS.find((s) => s.id === id);
+
+// Build options for CustomSelect
+const TEAM_OPTIONS = [
+  { value: 'all', label: 'All Teams' },
+  ...TEAMS.map((t) => ({ value: t.id, label: t.name, dot: t.color })),
+];
+
+const SPORT_OPTIONS = [
+  { value: 'all', label: 'All Sports' },
+  ...FIXTURE_SPORTS.map((s) => ({ value: s.id, label: s.name })),
+];
+
+// Derive unique dates that have fixtures
+const FIXTURE_DATES = [...new Set(FIXTURES.map((f) => f.date.slice(0, 10)))].sort();
+const DATE_OPTIONS = [
+  { value: '', label: 'All Dates' },
+  ...FIXTURE_DATES.map((d) => {
+    const date = new Date(d + 'T12:00:00');
+    return {
+      value: d,
+      label: date.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }),
+    };
+  }),
+];
 
 const Fixtures = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -41,6 +66,8 @@ const Fixtures = () => {
     setSearchParams(params);
   };
 
+  const hasFilters = teamFilter !== 'all' || sportFilter !== 'all' || dateFilter;
+
   return (
     <div className="page page-narrow" style={{ maxWidth: '760px', margin: '0 auto' }}>
 
@@ -48,53 +75,86 @@ const Fixtures = () => {
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
         <Calendar size={28} color="var(--yellow)" />
         <h1 style={{ fontSize: '28px' }}>Fixtures</h1>
-      </div>
-
-      {/* Filter Bar */}
-      <div className="filter-bar" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <select value={teamFilter} onChange={(e) => update('team', e.target.value)} style={{ flex: '1', minWidth: '130px' }}>
-          <option value="all">All Teams</option>
-          {TEAMS.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
-        </select>
-
-        <select value={sportFilter} onChange={(e) => update('sport', e.target.value)} style={{ flex: '1', minWidth: '130px' }}>
-          <option value="all">All Sports</option>
-          {FIXTURE_SPORTS.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-        </select>
-
-        <div style={{ position: 'relative', flex: '1', minWidth: '130px' }}>
-          <input
-            type="date"
-            value={dateFilter}
-            onChange={(e) => update('date', e.target.value)}
-            onKeyDown={(e) => e.preventDefault()}
-            onClick={(e) => e.target.showPicker?.()}
-            style={{ position: 'absolute', opacity: 0, inset: 0, width: '100%', height: '100%', cursor: 'pointer', zIndex: 10 }}
-          />
-          <div style={{ padding: '10px 16px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-full)', fontSize: '14px', fontWeight: 600, color: dateFilter ? 'var(--text)' : 'var(--text-3)', pointerEvents: 'none' }}>
-            {dateFilter || 'All Dates'}
-          </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '13px', color: 'var(--text-3)', fontWeight: 600 }}>
+            {filteredMatches.length} match{filteredMatches.length !== 1 ? 'es' : ''}
+          </span>
+          {hasFilters && (
+            <button
+              onClick={() => setSearchParams({})}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '5px',
+                padding: '6px 12px',
+                background: 'var(--red-bg)', border: '1px solid rgba(255,69,58,0.25)',
+                borderRadius: 'var(--radius-full)',
+                color: 'var(--red-status)', fontSize: '12px', fontWeight: 700,
+                cursor: 'pointer', fontFamily: 'inherit',
+              }}
+            >
+              <X size={12} /> Clear
+            </button>
+          )}
         </div>
-
-        {(teamFilter !== 'all' || sportFilter !== 'all' || dateFilter) && (
-          <button
-            onClick={() => setSearchParams({})}
-            style={{ padding: '10px 16px', background: 'var(--red-bg)', border: '1px solid rgba(255,69,58,0.25)', borderRadius: 'var(--radius-full)', color: 'var(--red-status)', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }}
-          >
-            Clear
-          </button>
-        )}
       </div>
 
-      {/* Match count */}
-      <div style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '16px', fontWeight: 600 }}>
-        {filteredMatches.length} match{filteredMatches.length !== 1 ? 'es' : ''}
+      {/* Filter Bar — 3 custom dropdowns */}
+      <div
+        className="filter-bar"
+        style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}
+      >
+        <CustomSelect
+          value={teamFilter}
+          onChange={(v) => update('team', v)}
+          options={TEAM_OPTIONS}
+          placeholder="All Teams"
+          minWidth="140px"
+        />
+        <CustomSelect
+          value={sportFilter}
+          onChange={(v) => update('sport', v)}
+          options={SPORT_OPTIONS}
+          placeholder="All Sports"
+          minWidth="150px"
+        />
+        <CustomSelect
+          value={dateFilter}
+          onChange={(v) => update('date', v)}
+          options={DATE_OPTIONS}
+          placeholder="All Dates"
+          minWidth="160px"
+        />
       </div>
 
-      {/* Matches */}
+      {/* Active filter chips */}
+      {hasFilters && (
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+          {teamFilter !== 'all' && (() => {
+            const team = getTeam(teamFilter);
+            return (
+              <button onClick={() => update('team', 'all')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: `${team?.color}22`, border: `1px solid ${team?.color}44`, borderRadius: 'var(--radius-full)', color: team?.color, fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: team?.color }} />
+                {team?.name} <X size={10} />
+              </button>
+            );
+          })()}
+          {sportFilter !== 'all' && (
+            <button onClick={() => update('sport', 'all')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: 'var(--yellow-subtle)', border: '1px solid var(--border-strong)', borderRadius: 'var(--radius-full)', color: 'var(--yellow)', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+              {getSport(sportFilter)?.name} <X size={10} />
+            </button>
+          )}
+          {dateFilter && (
+            <button onClick={() => update('date', '')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-full)', color: 'var(--text-2)', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+              {DATE_OPTIONS.find((d) => d.value === dateFilter)?.label} <X size={10} />
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Matches list */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {filteredMatches.length === 0 ? (
-          <div className="glass" style={{ padding: '48px', textAlign: 'center', color: 'var(--text-3)' }}>
+          <div className="glass" style={{ padding: '48px', textAlign: 'center', color: 'var(--text-3)', borderRadius: 'var(--radius-lg)' }}>
+            <div style={{ fontSize: '32px', marginBottom: '12px' }}>🔍</div>
             No matches found for the selected filters.
           </div>
         ) : filteredMatches.map((match, index) => {
@@ -117,9 +177,7 @@ const Fixtures = () => {
               key={match.id}
               className="match-card"
               ref={isScrollTarget ? scrollTargetRef : null}
-              style={{
-                borderColor: match.status === 'completed' ? 'rgba(50,215,75,0.2)' : undefined,
-              }}
+              style={{ borderColor: match.status === 'completed' ? 'rgba(50,215,75,0.2)' : undefined }}
             >
               {/* Sport + Date row */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
@@ -162,7 +220,7 @@ const Fixtures = () => {
                     ))}
                   </div>
                   <span style={{ fontWeight: t2Won ? 800 : 600, fontSize: '14px', textAlign: 'center', color: t2Won ? 'var(--yellow)' : 'var(--text)' }}>
-                    {t2Won && '🏆'} {t2s.map((t) => t.name).join(' + ')}
+                    {t2Won && '🏆 '}{t2s.map((t) => t.name).join(' + ')}
                   </span>
                 </div>
               </div>

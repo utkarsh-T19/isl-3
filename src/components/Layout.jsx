@@ -20,12 +20,14 @@ const Layout = () => {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
       {/* ── Desktop Top Nav ──────────────────────────────── */}
-      <nav className="top-nav" style={{ margin: '16px auto', width: 'calc(100% - 32px)' }}>
+      <nav className="top-nav">
+        {/* Logo — single line, no wrap */}
         <Link to="/" className="top-nav-logo">
           <div className="top-nav-logo-icon">⚡</div>
-          <span>IDfy SL 3.0</span>
+          <span style={{ whiteSpace: 'nowrap' }}>ISL 3.0</span>
         </Link>
 
+        {/* Nav links */}
         <div className="top-nav-links">
           {NAV_ITEMS.map(({ to, label, Icon }) => (
             <Link key={to} to={to} className={`nav-link ${isActive(to) ? 'active' : ''}`}>
@@ -35,8 +37,10 @@ const Layout = () => {
           ))}
         </div>
 
-        <div className="chip chip-yellow" style={{ fontSize: '11px' }}>
-          ⚡ Yellow House
+        {/* Yellow House badge — single line with nowrap */}
+        <div className="yh-badge">
+          <span>⚡</span>
+          <span style={{ whiteSpace: 'nowrap' }}>Yellow House</span>
         </div>
       </nav>
 
@@ -57,9 +61,9 @@ const Layout = () => {
       </footer>
 
       {/* ── Mobile Bottom Nav (scrollable, 7 tabs) ─────── */}
-      <nav className="bottom-nav" style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>
+      <nav className="bottom-nav">
         {NAV_ITEMS.map(({ to, label, Icon }) => (
-          <Link key={to} to={to} className={`bottom-nav-item ${isActive(to) ? 'active' : ''}`} style={{ minWidth: '54px' }}>
+          <Link key={to} to={to} className={`bottom-nav-item ${isActive(to) ? 'active' : ''}`}>
             <Icon size={20} />
             <span>{label}</span>
           </Link>
