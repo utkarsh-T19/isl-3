@@ -442,3 +442,60 @@ export const SPORT_STANDINGS = [
     fixturesB: ['Blue vs Pink', 'Blue vs Green', 'Blue vs Purple', 'Pink vs Green', 'Pink vs Purple', 'Green vs Purple'],
   },
 ];
+
+// ─── BRACKET ──────────────────────────────────────────────────────────────────
+// SF matchup: Pool A #1 vs Pool B #2 (sf1), Pool A #2 vs Pool B #1 (sf2)
+// To record results: set team1, team2 and winner in the relevant sf/final slot.
+// winner === null means the match hasn't happened yet.
+export const BRACKET = {
+  football: {
+    sfDate: 'Apr 29', finalDate: 'May 7',
+    sf1:   { team1: null, team2: null, winner: null },
+    sf2:   { team1: null, team2: null, winner: null },
+    final: { team1: null, team2: null, winner: null },
+  },
+  mens_cricket: {
+    sfDate: 'Apr 27', finalDate: 'May 7',
+    sf1:   { team1: null, team2: null, winner: null },
+    sf2:   { team1: null, team2: null, winner: null },
+    final: { team1: null, team2: null, winner: null },
+  },
+  womens_cricket: {
+    sfDate: 'Apr 27', finalDate: 'May 7',
+    // Combined teams advance as pairs: stored as arrays e.g. ['brown','pink']
+    sf1:   { team1: null, team2: null, winner: null },
+    sf2:   { team1: null, team2: null, winner: null },
+    final: { team1: null, team2: null, winner: null },
+  },
+  table_tennis: {
+    sfDate: 'Apr 30', finalDate: 'May 6',
+    sf1:   { team1: null, team2: null, winner: null },
+    sf2:   { team1: null, team2: null, winner: null },
+    final: { team1: null, team2: null, winner: null },
+  },
+  chess: {
+    sfDate: 'Apr 30', finalDate: 'May 6',
+    sf1:   { team1: null, team2: null, winner: null },
+    sf2:   { team1: null, team2: null, winner: null },
+    final: { team1: null, team2: null, winner: null },
+  },
+  carrom: {
+    sfDate: 'Apr 30', finalDate: 'May 6',
+    sf1:   { team1: null, team2: null, winner: null },
+    sf2:   { team1: null, team2: null, winner: null },
+    final: { team1: null, team2: null, winner: null },
+  },
+  pickleball: {
+    sfDate: 'May 4', finalDate: 'May 4',
+    sf1:   { team1: null, team2: null, winner: null },
+    sf2:   { team1: null, team2: null, winner: null },
+    final: { team1: null, team2: null, winner: null },
+  },
+  foosball: {
+    sfDate: 'May 5', finalDate: 'May 6',
+    sf1:   { team1: null, team2: null, winner: null },
+    sf2:   { team1: null, team2: null, winner: null },
+    final: { team1: null, team2: null, winner: null },
+  },
+};
+
