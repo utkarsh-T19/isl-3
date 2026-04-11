@@ -36,3 +36,15 @@ export const ALL_SPORTS = [
   ...SPORTS.indoor,
   ...SPORTS.misc
 ];
+
+// Points awarded to each winning team per match, per sport
+export const SPORT_WIN_POINTS = {
+  football:       10,
+  mens_cricket:   10,
+  womens_cricket:  5, // each team in the winning combined pair gets 5
+  table_tennis:    5,
+  chess:           5,
+  carrom:          5,
+  pickleball:      5,
+  foosball:        5,
+};
