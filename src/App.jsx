@@ -7,6 +7,7 @@ import Fixtures from './pages/Fixtures';
 import Schedule from './pages/Schedule';
 import Teams from './pages/Teams';
 import Standings from './pages/Standings';
+import Progression from './pages/Progression';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="schedule" element={<Schedule />} />
           <Route path="teams" element={<Teams />} />
           <Route path="standings" element={<Standings />} />
+          <Route path="progression" element={<Progression />} />
         </Route>
       </Routes>
     </HashRouter>
@@ -26,3 +28,4 @@ function App() {
 }
 
 export default App;
+

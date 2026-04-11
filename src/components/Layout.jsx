@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Trophy, Calendar, Home, Users, BarChart2, ClipboardList } from 'lucide-react';
+import { Trophy, Calendar, Home, Users, BarChart2, ClipboardList, TrendingUp } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { to: '/',           label: 'Home',       Icon: Home },
-  { to: '/leaderboard',label: 'Standings',  Icon: Trophy },
-  { to: '/standings',  label: 'Pools',      Icon: BarChart2 },
-  { to: '/schedule',   label: 'Schedule',   Icon: ClipboardList },
-  { to: '/teams',      label: 'Teams',      Icon: Users },
-  { to: '/fixtures',   label: 'Fixtures',   Icon: Calendar },
+  { to: '/',             label: 'Home',       Icon: Home },
+  { to: '/leaderboard',  label: 'Standings',  Icon: Trophy },
+  { to: '/standings',    label: 'Pools',      Icon: BarChart2 },
+  { to: '/schedule',     label: 'Schedule',   Icon: ClipboardList },
+  { to: '/teams',        label: 'Teams',      Icon: Users },
+  { to: '/fixtures',     label: 'Fixtures',   Icon: Calendar },
+  { to: '/progression',  label: 'Chart',      Icon: TrendingUp },
 ];
 
 const Layout = () => {
@@ -55,10 +56,10 @@ const Layout = () => {
         <p style={{ color: 'var(--text-3)', fontSize: '13px' }}>IDfy Sports League 3.0 · 2026</p>
       </footer>
 
-      {/* ── Mobile Bottom Nav ─────────────────────────────── */}
-      <nav className="bottom-nav">
+      {/* ── Mobile Bottom Nav (scrollable, 7 tabs) ─────── */}
+      <nav className="bottom-nav" style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>
         {NAV_ITEMS.map(({ to, label, Icon }) => (
-          <Link key={to} to={to} className={`bottom-nav-item ${isActive(to) ? 'active' : ''}`}>
+          <Link key={to} to={to} className={`bottom-nav-item ${isActive(to) ? 'active' : ''}`} style={{ minWidth: '54px' }}>
             <Icon size={20} />
             <span>{label}</span>
           </Link>
