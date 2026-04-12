@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Trophy, CalendarDays, Users, BarChart2, ClipboardList, Calendar, Zap } from 'lucide-react';
 import { TEAMS } from '../data/constants';
-import { LEADERBOARD, FIXTURES } from '../data/leagueData';
+import { useLeagueData } from '../context/DataContext';
+import DataStatus from '../components/DataStatus';
 
 const getTeam = (id) => TEAMS.find((t) => t.id === id);
 const getTotal = (pts) => Object.values(pts).reduce((s, v) => s + (v || 0), 0);
@@ -16,24 +17,25 @@ const NAV_CARDS = [
 ];
 
 const Home = () => {
+  const { leaderboard, fixtures } = useLeagueData();
   const today = useMemo(() => new Date(), []);
   const todayStr = today.toISOString().slice(0, 10);
 
   /* Top 3 overall ─────────────────────────────── */
   const ranked = useMemo(() =>
-    [...LEADERBOARD]
+    [...leaderboard]
       .map((r) => ({ ...r, total: getTotal(r.points) }))
       .sort((a, b) => b.total - a.total)
       .slice(0, 3),
-    []
+    [leaderboard]
   );
 
   /* Today's / next-up matches ─────────────────── */
   const todayMatches = useMemo(() => {
-    const todays = FIXTURES.filter((f) => f.date.slice(0, 10) === todayStr);
+    const todays = fixtures.filter((f) => f.date.slice(0, 10) === todayStr);
     if (todays.length > 0) return { matches: todays, label: "Today's Matches", isToday: true };
     // find next upcoming date
-    const upcoming = FIXTURES
+    const upcoming = fixtures
       .filter((f) => f.status === 'upcoming')
       .sort((a, b) => new Date(a.date) - new Date(b.date));
     if (upcoming.length === 0) return { matches: [], label: 'No upcoming matches', isToday: false };
@@ -43,7 +45,7 @@ const Home = () => {
       label: `Next Up · ${new Date(nextDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' })}`,
       isToday: false,
     };
-  }, [todayStr]);
+  }, [todayStr, fixtures]);
 
   const isLive = (dateStr) => {
     const start = new Date(dateStr);
@@ -57,6 +59,7 @@ const Home = () => {
 
   return (
     <div className="page" style={{ maxWidth: '860px', margin: '0 auto' }}>
+      <DataStatus />
 
       {/* ── Hero ───────────────────────────────────────────── */}
       <div className="fade-up" style={{ textAlign: 'center', padding: '48px 20px 40px' }}>

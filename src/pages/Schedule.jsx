@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { ClipboardList, MapPin, Clock } from 'lucide-react';
 import { ALL_SPORTS } from '../data/constants';
-import { SCHEDULE, FIXTURES } from '../data/leagueData';
+import { useLeagueData } from '../context/DataContext';
+import DataStatus from '../components/DataStatus';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 
@@ -14,22 +15,23 @@ const TYPE_COLOURS = {
 const getSportName = (id) => ALL_SPORTS.find((s) => s.id === id)?.name || id;
 
 const Schedule = () => {
+  const { schedule, fixtures } = useLeagueData();
   const today = todayStr();
   const [expandedDates, setExpandedDates] = useState(() => {
-    // auto-expand today or next upcoming day
-    const upcoming = SCHEDULE.filter((d) => d.date >= today && d.type !== 'holiday');
+    // auto-expand today or next upcoming day (uses seed data on first render)
+    const upcoming = schedule.filter((d) => d.date >= today && d.type !== 'holiday');
     return upcoming.length > 0 ? new Set([upcoming[0].date]) : new Set();
   });
 
   const fixturesByDate = useMemo(() => {
     const map = {};
-    FIXTURES.forEach((f) => {
+    fixtures.forEach((f) => {
       const d = f.date.slice(0, 10);
       if (!map[d]) map[d] = [];
       map[d].push(f);
     });
     return map;
-  }, []);
+  }, [fixtures]);
 
   const toggle = (date) => {
     setExpandedDates((prev) => {
@@ -45,6 +47,7 @@ const Schedule = () => {
 
   return (
     <div className="page page-narrow" style={{ maxWidth: '760px', margin: '0 auto' }}>
+      <DataStatus />
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
@@ -70,7 +73,7 @@ const Schedule = () => {
 
       {/* Timeline */}
       <div style={{ position: 'relative', paddingLeft: '0' }}>
-        {SCHEDULE.map((day, idx) => {
+        {schedule.map((day, idx) => {
           const done     = isDone(day.date);
           const today_   = isToday(day.date);
           const typeCol  = TYPE_COLOURS[day.type] || TYPE_COLOURS.outdoor;
@@ -84,7 +87,7 @@ const Schedule = () => {
               {/* Timeline spine */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, width: '20px' }}>
                 <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: dotColor, border: '2px solid var(--bg)', marginTop: '18px', zIndex: 1, boxShadow: today_ ? `0 0 0 4px var(--yellow-glow)` : 'none', flexShrink: 0 }} />
-                {idx < SCHEDULE.length - 1 && (
+                {idx < schedule.length - 1 && (
                   <div style={{ width: '2px', flex: 1, minHeight: '20px', background: 'var(--border)', marginTop: '4px' }} />
                 )}
               </div>

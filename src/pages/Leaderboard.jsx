@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TEAMS, ALL_SPORTS } from '../data/constants';
-import { useLeague } from '../context/LeagueContext';
+import { useLeagueData } from '../context/DataContext';
+import DataStatus from '../components/DataStatus';
 import { ArrowUpDown, Trophy } from 'lucide-react';
 
 const getTotal = (pts) => Object.values(pts).reduce((s, v) => s + (v || 0), 0);
@@ -28,7 +29,7 @@ const MEDALS = ['🥇', '🥈', '🥉'];
 
 const Leaderboard = () => {
   const navigate = useNavigate();
-  const { leaderboard } = useLeague();
+  const { leaderboard } = useLeagueData();
   const [activeSport, setActiveSport] = useState('overall');
   const [sortConfig, setSortConfig] = useState({ key: 'total', direction: 'desc' });
 
@@ -111,6 +112,7 @@ const Leaderboard = () => {
 
   return (
     <div className="page" style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <DataStatus />
 
       {/* ── Page Title ──────────────────────────────────────── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>

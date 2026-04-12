@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { BarChart2, GitBranch } from 'lucide-react';
 import { TEAMS } from '../data/constants';
-import { SPORT_STANDINGS, BRACKET } from '../data/leagueData';
-import { useLeague } from '../context/LeagueContext';
+import { useLeagueData } from '../context/DataContext';
+import DataStatus from '../components/DataStatus';
 import TournamentBracket from '../components/TournamentBracket';
 import QualificationStrip from '../components/QualificationStrip';
 
@@ -10,33 +10,30 @@ const getTeam = (id) => TEAMS.find((t) => t.id === id);
 const MEDALS = ['🥇', '🥈', '🥉'];
 
 const Standings = () => {
-  const { fixtures } = useLeague();
-  const [activeSport, setActiveSport] = useState(SPORT_STANDINGS[0]?.sportId || '');
+  const { sportStandings, fixtures, bracket } = useLeagueData();
+  const [activeSport, setActiveSport] = useState('');
   const [showBracket, setShowBracket] = useState(true);
 
-  /* Derive completed fixture labels from the context fixtures */
-  const completedSet = useMemo(
-    () =>
-      new Set(
-        fixtures.filter((f) => f.status === 'completed').map((f) => {
-          const t1 = Array.isArray(f.team1Id) ? f.team1Id : [f.team1Id];
-          const t2 = Array.isArray(f.team2Id) ? f.team2Id : [f.team2Id];
-          const name = (ids) => ids.map((id) => id.charAt(0).toUpperCase() + id.slice(1)).join(' + ');
-          return `${f.sportId}::${name(t1)}::${name(t2)}`;
-        })
-      ),
-    [fixtures]
-  );
+  // Set initial active sport once data loads
+  const firstSportId = sportStandings[0]?.sportId || '';
+  const resolvedActive = activeSport || firstSportId;
 
-  const isFixtureCompleted = useCallback(
-    (sportId, label) => {
-      const [a, b] = label.split(' vs ');
-      return completedSet.has(`${sportId}::${a}::${b}`) || completedSet.has(`${sportId}::${b}::${a}`);
-    },
-    [completedSet]
-  );
+  // Derive completed set from live fixtures
+  const completedSet = useMemo(() => new Set(
+    fixtures.filter((f) => f.status === 'completed').map((f) => {
+      const t1 = Array.isArray(f.team1Id) ? f.team1Id : [f.team1Id];
+      const t2 = Array.isArray(f.team2Id) ? f.team2Id : [f.team2Id];
+      const name = (ids) => ids.map((id) => id.charAt(0).toUpperCase() + id.slice(1)).join(' + ');
+      return `${f.sportId}::${name(t1)}::${name(t2)}`;
+    })
+  ), [fixtures]);
 
-  const sport = useMemo(() => SPORT_STANDINGS.find((s) => s.sportId === activeSport), [activeSport]);
+  const isFixtureCompleted = (sportId, label) => {
+    const [a, b] = label.split(' vs ');
+    return completedSet.has(`${sportId}::${a}::${b}`) || completedSet.has(`${sportId}::${b}::${a}`);
+  };
+
+  const sport = useMemo(() => sportStandings.find((s) => s.sportId === resolvedActive), [resolvedActive, sportStandings]);
 
   const poolSorted = (pool) => [...pool].sort((a, b) => b.points - a.points);
 
@@ -129,6 +126,7 @@ const Standings = () => {
 
   return (
     <div className="page" style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <DataStatus />
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
@@ -157,8 +155,8 @@ const Standings = () => {
 
       {/* Sport Tab Strip */}
       <div className="tab-strip" style={{ marginBottom: '28px' }}>
-        {SPORT_STANDINGS.map(({ sportId, name }) => (
-          <button key={sportId} className={`tab-pill ${activeSport === sportId ? 'active' : ''}`} onClick={() => setActiveSport(sportId)}>
+        {sportStandings.map(({ sportId, name }) => (
+          <button key={sportId} className={`tab-pill ${resolvedActive === sportId ? 'active' : ''}`} onClick={() => setActiveSport(sportId)}>
             {name}
           </button>
         ))}
@@ -190,14 +188,14 @@ const Standings = () => {
           )}
 
           {/* ── Tournament Bracket ── */}
-          {showBracket && !sport.isCombined && BRACKET[sport.sportId] && (
+          {showBracket && !sport.isCombined && bracket[sport.sportId] && (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <GitBranch size={18} color="var(--yellow)" />
                 <span style={{ fontWeight: 800, fontSize: '16px' }}>Tournament Bracket</span>
                 <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
                 <span style={{ fontSize: '11px', color: 'var(--text-3)', fontWeight: 600 }}>
-                  SF: {BRACKET[sport.sportId].sfDate} · Final: {BRACKET[sport.sportId].finalDate}
+                  SF: {bracket[sport.sportId].sfDate} · Final: {bracket[sport.sportId].finalDate}
                 </span>
               </div>
               <div className="glass" style={{ padding: '20px', borderRadius: '16px', overflowX: 'auto' }}>
@@ -205,7 +203,7 @@ const Standings = () => {
                   sportId={sport.sportId}
                   poolA={sport.poolA}
                   poolB={sport.poolB}
-                  bracket={BRACKET[sport.sportId]}
+                  bracket={bracket[sport.sportId]}
                   isCombined={sport.isCombined}
                 />
               </div>
