@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { TEAMS, ALL_SPORTS, SPORTS } from '../data/constants';
-import { FIXTURES } from '../data/leagueData';
+import { useLeague } from '../context/LeagueContext';
 import { Calendar, X } from 'lucide-react';
 import CustomSelect from '../components/CustomSelect';
 
@@ -20,27 +20,30 @@ const SPORT_OPTIONS = [
   ...FIXTURE_SPORTS.map((s) => ({ value: s.id, label: s.name })),
 ];
 
-// Derive unique dates that have fixtures
-const FIXTURE_DATES = [...new Set(FIXTURES.map((f) => f.date.slice(0, 10)))].sort();
-const DATE_OPTIONS = [
-  { value: '', label: 'All Dates' },
-  ...FIXTURE_DATES.map((d) => {
-    const date = new Date(d + 'T12:00:00');
-    return {
-      value: d,
-      label: date.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }),
-    };
-  }),
-];
-
 const Fixtures = () => {
+  const { fixtures } = useLeague();
+
+  // Derive unique dates that have fixtures (recomputes when context changes)
+  const dateOptions = useMemo(() => {
+    const fixtureDates = [...new Set(fixtures.map((f) => f.date.slice(0, 10)))].sort();
+    return [
+      { value: '', label: 'All Dates' },
+      ...fixtureDates.map((d) => {
+        const date = new Date(d + 'T12:00:00');
+        return {
+          value: d,
+          label: date.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }),
+        };
+      }),
+    ];
+  }, [fixtures]);
   const [searchParams, setSearchParams] = useSearchParams();
   const teamFilter  = searchParams.get('team')  || 'all';
   const sportFilter = searchParams.get('sport') || 'all';
   const dateFilter  = searchParams.get('date')  || '';
   const scrollTargetRef = useRef(null);
 
-  const filteredMatches = FIXTURES.filter((match) => {
+  const filteredMatches = fixtures.filter((match) => {
     const inTeam   = (field, target) => Array.isArray(field) ? field.includes(target) : field === target;
     const matchTeam  = teamFilter  === 'all' || inTeam(match.team1Id, teamFilter)  || inTeam(match.team2Id, teamFilter);
     const matchSport = sportFilter === 'all' || match.sportId === sportFilter;
@@ -119,7 +122,7 @@ const Fixtures = () => {
         <CustomSelect
           value={dateFilter}
           onChange={(v) => update('date', v)}
-          options={DATE_OPTIONS}
+          options={dateOptions}
           placeholder="All Dates"
           minWidth="160px"
         />
@@ -144,7 +147,7 @@ const Fixtures = () => {
           )}
           {dateFilter && (
             <button onClick={() => update('date', '')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-full)', color: 'var(--text-2)', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
-              {DATE_OPTIONS.find((d) => d.value === dateFilter)?.label} <X size={10} />
+              {dateOptions.find((d) => d.value === dateFilter)?.label} <X size={10} />
             </button>
           )}
         </div>

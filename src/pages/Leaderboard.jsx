@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TEAMS, ALL_SPORTS } from '../data/constants';
-import { LEADERBOARD } from '../data/leagueData';
+import { useLeague } from '../context/LeagueContext';
 import { ArrowUpDown, Trophy } from 'lucide-react';
 
 const getTotal = (pts) => Object.values(pts).reduce((s, v) => s + (v || 0), 0);
@@ -28,6 +28,7 @@ const MEDALS = ['🥇', '🥈', '🥉'];
 
 const Leaderboard = () => {
   const navigate = useNavigate();
+  const { leaderboard } = useLeague();
   const [activeSport, setActiveSport] = useState('overall');
   const [sortConfig, setSortConfig] = useState({ key: 'total', direction: 'desc' });
 
@@ -39,21 +40,21 @@ const Leaderboard = () => {
   };
 
   const sortedData = useMemo(() => {
-    return [...LEADERBOARD]
+    return [...leaderboard]
       .map((r) => ({ ...r, total: getTotal(r.points) }))
       .sort((a, b) => {
         const av = sortConfig.key === 'total' ? a.total : (a.points[sortConfig.key] || 0);
         const bv = sortConfig.key === 'total' ? b.total : (b.points[sortConfig.key] || 0);
         return sortConfig.direction === 'asc' ? av - bv : bv - av;
       });
-  }, [sortConfig]);
+  }, [sortConfig, leaderboard]);
 
   const sportRanked = useMemo(() => {
     if (activeSport === 'overall') return sortedData;
-    return [...LEADERBOARD]
+    return [...leaderboard]
       .map((r) => ({ ...r, sportPts: r.points[activeSport] || 0 }))
       .sort((a, b) => b.sportPts - a.sportPts);
-  }, [activeSport, sortedData]);
+  }, [activeSport, sortedData, leaderboard]);
 
   /* ── Sport-focused view ───────────────────────── */
   const SportView = () => (

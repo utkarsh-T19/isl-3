@@ -1,31 +1,40 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { BarChart2, GitBranch } from 'lucide-react';
 import { TEAMS } from '../data/constants';
-import { SPORT_STANDINGS, FIXTURES, BRACKET } from '../data/leagueData';
+import { SPORT_STANDINGS, BRACKET } from '../data/leagueData';
+import { useLeague } from '../context/LeagueContext';
 import TournamentBracket from '../components/TournamentBracket';
 import QualificationStrip from '../components/QualificationStrip';
 
 const getTeam = (id) => TEAMS.find((t) => t.id === id);
 const MEDALS = ['🥇', '🥈', '🥉'];
 
-/* Derive completed fixture labels from the FIXTURES array */
-const completedSet = new Set(
-  FIXTURES.filter((f) => f.status === 'completed').map((f) => {
-    const t1 = Array.isArray(f.team1Id) ? f.team1Id : [f.team1Id];
-    const t2 = Array.isArray(f.team2Id) ? f.team2Id : [f.team2Id];
-    const name = (ids) => ids.map((id) => id.charAt(0).toUpperCase() + id.slice(1)).join(' + ');
-    return `${f.sportId}::${name(t1)}::${name(t2)}`;
-  })
-);
-
-const isFixtureCompleted = (sportId, label) => {
-  const [a, b] = label.split(' vs ');
-  return completedSet.has(`${sportId}::${a}::${b}`) || completedSet.has(`${sportId}::${b}::${a}`);
-};
-
 const Standings = () => {
+  const { fixtures } = useLeague();
   const [activeSport, setActiveSport] = useState(SPORT_STANDINGS[0]?.sportId || '');
   const [showBracket, setShowBracket] = useState(true);
+
+  /* Derive completed fixture labels from the context fixtures */
+  const completedSet = useMemo(
+    () =>
+      new Set(
+        fixtures.filter((f) => f.status === 'completed').map((f) => {
+          const t1 = Array.isArray(f.team1Id) ? f.team1Id : [f.team1Id];
+          const t2 = Array.isArray(f.team2Id) ? f.team2Id : [f.team2Id];
+          const name = (ids) => ids.map((id) => id.charAt(0).toUpperCase() + id.slice(1)).join(' + ');
+          return `${f.sportId}::${name(t1)}::${name(t2)}`;
+        })
+      ),
+    [fixtures]
+  );
+
+  const isFixtureCompleted = useCallback(
+    (sportId, label) => {
+      const [a, b] = label.split(' vs ');
+      return completedSet.has(`${sportId}::${a}::${b}`) || completedSet.has(`${sportId}::${b}::${a}`);
+    },
+    [completedSet]
+  );
 
   const sport = useMemo(() => SPORT_STANDINGS.find((s) => s.sportId === activeSport), [activeSport]);
 

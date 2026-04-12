@@ -8,21 +8,26 @@ import Schedule from './pages/Schedule';
 import Teams from './pages/Teams';
 import Standings from './pages/Standings';
 import Progression from './pages/Progression';
+import AdminPanel from './pages/AdminPanel';
+import { LeagueProvider } from './context/LeagueContext';
 
 function App() {
   return (
     <HashRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="leaderboard" element={<Leaderboard />} />
-          <Route path="fixtures" element={<Fixtures />} />
-          <Route path="schedule" element={<Schedule />} />
-          <Route path="teams" element={<Teams />} />
-          <Route path="standings" element={<Standings />} />
-          <Route path="progression" element={<Progression />} />
-        </Route>
-      </Routes>
+      <LeagueProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="leaderboard" element={<Leaderboard />} />
+            <Route path="fixtures" element={<Fixtures />} />
+            <Route path="schedule" element={<Schedule />} />
+            <Route path="teams" element={<Teams />} />
+            <Route path="standings" element={<Standings />} />
+            <Route path="progression" element={<Progression />} />
+          </Route>
+          <Route path="admin" element={<AdminPanel />} />
+        </Routes>
+      </LeagueProvider>
     </HashRouter>
   );
 }
