@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Trophy, Calendar, Home, Users, BarChart2, ClipboardList, TrendingUp } from 'lucide-react';
+import ThemeSwitcher from './ThemeSwitcher';
 
 const NAV_ITEMS = [
   { to: '/',             label: 'Home',       Icon: Home },
@@ -37,6 +38,9 @@ const Layout = () => {
           ))}
         </div>
 
+        {/* Theme Switcher — between nav links and badge */}
+        <ThemeSwitcher />
+
         {/* Yellow House badge — single line with nowrap */}
         <div className="yh-badge">
           <span>⚡</span>
@@ -68,6 +72,9 @@ const Layout = () => {
             <span>{label}</span>
           </Link>
         ))}
+        <div className="bottom-nav-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ThemeSwitcher />
+        </div>
       </nav>
     </div>
   );

@@ -51,6 +51,36 @@
   --bottom-nav-h:  72px;
 }
 
+/* ═══ Light Theme Overrides ════════════════════════════════════════════════ */
+:root[data-theme="light"] {
+  /* ── Backgrounds ── */
+  --bg:            #FAFAF5;
+  --bg-2:          #F0EFE8;
+  --bg-3:          #E6E5DC;
+
+  /* ── Surfaces (glass panels) ── */
+  --surface:       rgba(0, 0, 0, 0.04);
+  --surface-2:     rgba(0, 0, 0, 0.07);
+  --surface-hover: rgba(201, 168, 0, 0.08);
+
+  /* ── Borders ── */
+  --border:        rgba(0, 0, 0, 0.10);
+  --border-strong: rgba(0, 0, 0, 0.20);
+
+  /* ── Text ── */
+  --text:          #1A1800;
+  --text-2:        rgba(26, 24, 0, 0.65);
+  --text-3:        rgba(26, 24, 0, 0.45);
+
+  /* ── Misc (theme-dependent) ── */
+  --shadow:        0 4px 32px rgba(0, 0, 0, 0.08);
+  --shadow-glow:   0 0 32px rgba(201, 168, 0, 0.10);
+  --yellow-glow:   rgba(201, 168, 0, 0.18);
+  --yellow-subtle: rgba(201, 168, 0, 0.06);
+
+  /* Brand yellows, greens, reds, radii, blur unchanged */
+}
+
 /* ═══ Reset ════════════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
