@@ -4,6 +4,10 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import Leaderboard from './pages/Leaderboard';
 import Fixtures from './pages/Fixtures';
+import Schedule from './pages/Schedule';
+import Teams from './pages/Teams';
+import Standings from './pages/Standings';
+import Progression from './pages/Progression';
 
 function App() {
   return (
@@ -13,6 +17,10 @@ function App() {
           <Route index element={<Home />} />
           <Route path="leaderboard" element={<Leaderboard />} />
           <Route path="fixtures" element={<Fixtures />} />
+          <Route path="schedule" element={<Schedule />} />
+          <Route path="teams" element={<Teams />} />
+          <Route path="standings" element={<Standings />} />
+          <Route path="progression" element={<Progression />} />
         </Route>
       </Routes>
     </HashRouter>
@@ -20,3 +28,4 @@ function App() {
 }
 
 export default App;
+
