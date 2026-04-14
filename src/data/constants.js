@@ -1,12 +1,12 @@
 export const TEAMS = [
-  { id: 'yellow', name: 'Yellow', color: '#FBD316', text: '#000000' },
-  { id: 'red', name: 'Red', color: '#FF0000', text: '#FFFFFF' },
-  { id: 'green', name: 'Green', color: '#34A853', text: '#FFFFFF' },
-  { id: 'blue', name: 'Blue', color: '#1C43B9', text: '#FFFFFF' },
-  { id: 'pink', name: 'Pink', color: '#FF8282', text: '#FFFFFF' },
-  { id: 'teal', name: 'Teal', color: '#1FC9B4', text: '#000000' },
-  { id: 'brown', name: 'Brown', color: '#793722', text: '#FFFFFF' },
-  { id: 'purple', name: 'Purple', color: '#9900FF', text: '#FFFFFF' }
+  { id: 'yellow', name: 'Yellow', color: 'var(--team-yellow)', text: '#000000' },
+  { id: 'red', name: 'Red', color: 'var(--team-red)', text: '#FFFFFF' },
+  { id: 'green', name: 'Green', color: 'var(--team-green)', text: '#FFFFFF' },
+  { id: 'blue', name: 'Blue', color: 'var(--team-blue)', text: '#FFFFFF' },
+  { id: 'pink', name: 'Pink', color: 'var(--team-pink)', text: '#FFFFFF' },
+  { id: 'teal', name: 'Teal', color: 'var(--team-teal)', text: '#000000' },
+  { id: 'brown', name: 'Brown', color: 'var(--team-brown)', text: '#FFFFFF' },
+  { id: 'purple', name: 'Purple', color: 'var(--team-purple)', text: '#FFFFFF' }
 ];
 
 export const SPORTS = {
@@ -18,7 +18,8 @@ export const SPORTS = {
   indoor: [
     { id: 'table_tennis', name: 'Table Tennis' },
     { id: 'chess', name: 'Chess' },
-    { id: 'pickleball', name: 'Pickleball' },
+    { id: 'mens_pickleball', name: "Men's Pickleball" },
+    { id: 'womens_pickleball', name: "Women's Pickleball" },
     { id: 'carrom', name: 'Carrom' },
     { id: 'foosball', name: 'Foosball' }
   ],
@@ -45,6 +46,7 @@ export const SPORT_WIN_POINTS = {
   table_tennis:    5,
   chess:           5,
   carrom:          5,
-  pickleball:      5,
+  mens_pickleball:   5,
+  womens_pickleball: 5,
   foosball:        5,
 };

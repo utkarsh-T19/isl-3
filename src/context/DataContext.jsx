@@ -142,6 +142,28 @@ export function DataProvider({ children }) {
       console.warn('[DataContext] teams_roster fetch failed, using seed:', e.message);
     }
 
+    // ── Post-process: split combined "CRICKET" leaderboard column ──────
+    // The leaderboard CSV has a single "CRICKET" column that sums men's + women's.
+    // Use sportStandings to extract women's cricket per-team and split.
+    const lb = updates.leaderboard;
+    const ss = updates.sportStandings;
+    if (lb && ss) {
+      const wc = ss.find((s) => s.sportId === 'womens_cricket');
+      if (wc) {
+        const wcPts = {};
+        (wc.poolA || []).forEach((e) => { wcPts[e.teamId] = (wcPts[e.teamId] || 0) + e.points; });
+        (wc.poolB || []).forEach((e) => { wcPts[e.teamId] = (wcPts[e.teamId] || 0) + e.points; });
+        updates.leaderboard = lb.map((row) => {
+          const wcVal = wcPts[row.teamId] || 0;
+          const combined = row.points.mens_cricket || 0;
+          return {
+            ...row,
+            points: { ...row.points, womens_cricket: wcVal, mens_cricket: Math.max(0, combined - wcVal) },
+          };
+        });
+      }
+    }
+
     const dataSource =
       csvCount === 5 ? 'csv' :
       csvCount === 0 ? 'seed' : 'partial';

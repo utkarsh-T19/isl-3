@@ -55,13 +55,16 @@ const SPORT_LABEL_MAP = {
   'mc': 'mens_cricket', 'cricket men': 'mens_cricket', 'cricket mens': 'mens_cricket',
   'cm': 'mens_cricket',
   'womens cricket': 'womens_cricket', "women's cricket": 'womens_cricket', 'women cricket': 'womens_cricket',
+  'cricket womens': 'womens_cricket', 'cricket women': 'womens_cricket',
   'wc': 'womens_cricket', 'cw': 'womens_cricket',
   'football': 'football', 'mens football': 'football', "men's football": 'football', 'f': 'football',
   'table tennis': 'table_tennis', 'tt': 'table_tennis',
   'chess': 'chess',
   'carrom': 'carrom',
-  'pickleball': 'pickleball', 'pickleball men and women': 'pickleball',
-  'mp': 'pickleball', 'wp': 'pickleball',
+  'pickleball men': 'mens_pickleball', "men's pickleball": 'mens_pickleball',
+  'mp': 'mens_pickleball', 'mens pickleball': 'mens_pickleball',
+  'pickleball women': 'womens_pickleball', "women's pickleball": 'womens_pickleball',
+  'wp': 'womens_pickleball', 'womens pickleball': 'womens_pickleball',
   'foosball': 'foosball',
 };
 export function sportLabelToId(label) {
@@ -156,7 +159,7 @@ export function parseLeaderboard(text) {
       'chess': 'chess',
       'carrom': 'carrom',
       'foosball': 'foosball',
-      'pickleball': 'pickleball',
+      'pickleball': 'mens_pickleball',
       'tt': 'table_tennis',
       'table tennis': 'table_tennis',
       'dance': 'dance',
@@ -188,7 +191,7 @@ export function parseLeaderboard(text) {
 
       // Fill any missing sport keys with 0
       const ALL_KEYS = ['football', 'mens_cricket', 'womens_cricket', 'table_tennis', 'chess',
-        'pickleball', 'carrom', 'foosball', 'dance', 'house_branding',
+        'mens_pickleball', 'womens_pickleball', 'carrom', 'foosball', 'dance', 'house_branding',
         'cringe_recreation', 'shades_of_glory', 'trivia'];
       ALL_KEYS.forEach((k) => { if (points[k] === undefined) points[k] = 0; });
 
@@ -418,7 +421,8 @@ export function parseSportStandings(text) {
       const ALL_SPORT_NAMES = {
         football: 'Football', mens_cricket: "Men's Cricket",
         table_tennis: 'Table Tennis', chess: 'Chess',
-        carrom: 'Carrom', pickleball: 'Pickleball', foosball: 'Foosball',
+        carrom: 'Carrom', mens_pickleball: "Men's Pickleball",
+        womens_pickleball: "Women's Pickleball", foosball: 'Foosball',
       };
 
       result.push({
@@ -456,7 +460,7 @@ export function parseSchedule(text) {
       football: ['football'],
       carrom: ['carrom'],
       chess: ['chess'],
-      pickleball: ['pickleball'],
+      pickleball: ['mens_pickleball', 'womens_pickleball'],
       foosball: ['foosball'],
       'table tennis': ['table_tennis'],
       tt: ['table_tennis'],

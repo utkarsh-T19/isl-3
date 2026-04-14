@@ -56,20 +56,20 @@ const Teams = () => {
               key={team.id}
               className="roster-card"
               onClick={() => setExpanded(isExpanded ? null : team.id)}
-              style={{ border: `1px solid ${team.color}33` }}
+              style={{ border: `1px solid color-mix(in srgb, ${team.color} 20%, transparent)` }}
             >
               {/* Coloured Header */}
               <div
                 className="roster-header"
                 style={{
-                  background: `linear-gradient(140deg, ${team.color}30 0%, ${team.color}10 100%)`,
-                  borderBottom: `1px solid ${team.color}33`,
+                  background: `linear-gradient(140deg, color-mix(in srgb, ${team.color} 19%, transparent) 0%, color-mix(in srgb, ${team.color} 6%, transparent) 100%)`,
+                  borderBottom: `1px solid color-mix(in srgb, ${team.color} 20%, transparent)`,
                 }}
               >
                 {/* Rank badge */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: team.color, flexShrink: 0, boxShadow: `0 4px 16px ${team.color}55` }} />
+                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: team.color, flexShrink: 0, boxShadow: `0 4px 16px color-mix(in srgb, ${team.color} 33%, transparent)` }} />
                     <div>
                       <div style={{ fontWeight: 900, fontSize: '20px' }}>{team.name}</div>
                       <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: '5px' }}>
