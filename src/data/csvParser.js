@@ -55,6 +55,7 @@ const SPORT_LABEL_MAP = {
   'mc': 'mens_cricket', 'cricket men': 'mens_cricket', 'cricket mens': 'mens_cricket',
   'cm': 'mens_cricket',
   'womens cricket': 'womens_cricket', "women's cricket": 'womens_cricket', 'women cricket': 'womens_cricket',
+  'cricket womens': 'womens_cricket', 'cricket women': 'womens_cricket',
   'wc': 'womens_cricket', 'cw': 'womens_cricket',
   'football': 'football', 'mens football': 'football', "men's football": 'football', 'f': 'football',
   'table tennis': 'table_tennis', 'tt': 'table_tennis',
@@ -158,7 +159,7 @@ export function parseLeaderboard(text) {
       'chess': 'chess',
       'carrom': 'carrom',
       'foosball': 'foosball',
-      'pickleball': 'pickleball',
+      'pickleball': 'mens_pickleball',
       'tt': 'table_tennis',
       'table tennis': 'table_tennis',
       'dance': 'dance',
@@ -190,7 +191,7 @@ export function parseLeaderboard(text) {
 
       // Fill any missing sport keys with 0
       const ALL_KEYS = ['football', 'mens_cricket', 'womens_cricket', 'table_tennis', 'chess',
-        'pickleball', 'carrom', 'foosball', 'dance', 'house_branding',
+        'mens_pickleball', 'womens_pickleball', 'carrom', 'foosball', 'dance', 'house_branding',
         'cringe_recreation', 'shades_of_glory', 'trivia'];
       ALL_KEYS.forEach((k) => { if (points[k] === undefined) points[k] = 0; });
 
