@@ -1,21 +1,19 @@
 import React from 'react';
-import { TEAMS } from '../data/constants';
-import { FIXTURES } from '../data/leagueData';
-import { SPORT_WIN_POINTS } from '../data/constants';
+import { TEAMS, SPORT_WIN_POINTS } from '../data/constants';
 
 const getTeam = (id) => TEAMS.find((t) => t.id === id);
 
-const countRemaining = (teamId, sportId) =>
-  FIXTURES.filter((f) => {
+const countRemaining = (teamId, sportId, fixtures) =>
+  fixtures.filter((f) => {
     if (f.sportId !== sportId || f.status !== 'upcoming') return false;
     const t1 = Array.isArray(f.team1Id) ? f.team1Id : [f.team1Id];
     const t2 = Array.isArray(f.team2Id) ? f.team2Id : [f.team2Id];
     return t1.includes(teamId) || t2.includes(teamId);
   }).length;
 
-const getQualStatus = (entry, pool, sportId) => {
+const getQualStatus = (entry, pool, sportId, fixtures) => {
   const ptsPerWin = SPORT_WIN_POINTS[sportId] || 5;
-  const rem = countRemaining(entry.teamId, sportId);
+  const rem = countRemaining(entry.teamId, sportId, fixtures);
   const myMax = entry.points + rem * ptsPerWin;
 
   const othersAboveMyMax = pool.filter(
@@ -25,7 +23,7 @@ const getQualStatus = (entry, pool, sportId) => {
 
   const canBeatMe = pool.filter((e) => {
     if (e.teamId === entry.teamId) return false;
-    const eMax = e.points + countRemaining(e.teamId, sportId) * ptsPerWin;
+    const eMax = e.points + countRemaining(e.teamId, sportId, fixtures) * ptsPerWin;
     return eMax > entry.points;
   }).length;
   if (canBeatMe <= 1) return 'qualified';
@@ -38,10 +36,16 @@ const STATUS = {
   eliminated: { label: '❌ Eliminated',  bg: 'var(--red-bg)',        color: 'var(--red-status)' },
 };
 
-const QualificationStrip = ({ pool, sportId, label }) => {
+const QualificationStrip = ({ pool, sportId, label, fixtures = [] }) => {
   if (!pool || pool.length === 0) return null;
   const ptsPerWin = SPORT_WIN_POINTS[sportId] || 5;
   const sorted = [...pool].sort((a, b) => b.points - a.points);
+
+  // Compute the highest max pts across the pool for comparable bar widths
+  const poolMaxPts = Math.max(
+    ...sorted.map((e) => e.points + countRemaining(e.teamId, sportId, fixtures) * ptsPerWin),
+    1
+  );
 
   return (
     <div style={{ marginBottom: '16px' }}>
@@ -52,11 +56,12 @@ const QualificationStrip = ({ pool, sportId, label }) => {
         {sorted.map((entry) => {
           const team = getTeam(entry.teamId);
           if (!team) return null;
-          const rem = countRemaining(entry.teamId, sportId);
+          const rem = countRemaining(entry.teamId, sportId, fixtures);
           const maxPts = entry.points + rem * ptsPerWin;
-          const status = getQualStatus(entry, pool, sportId);
+          const status = getQualStatus(entry, pool, sportId, fixtures);
           const cfg = STATUS[status];
-          const pct = maxPts > 0 ? Math.round((entry.points / maxPts) * 100) : 0;
+          const pct = poolMaxPts > 0 ? Math.round((entry.points / poolMaxPts) * 100) : 0;
+          const maxPct = poolMaxPts > 0 ? Math.round((maxPts / poolMaxPts) * 100) : 0;
 
           return (
             <div
@@ -77,10 +82,10 @@ const QualificationStrip = ({ pool, sportId, label }) => {
                     {cfg.label}
                   </span>
                 </div>
-                {/* Progress: current vs max */}
+                {/* Progress: current vs max, relative to pool's highest max */}
                 <div style={{ height: '4px', borderRadius: '2px', background: 'var(--surface-2)', overflow: 'hidden', position: 'relative' }}>
                   {/* Max potential bar (faded) */}
-                  <div style={{ position: 'absolute', inset: 0, background: `${team.color}22`, width: '100%' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: `${team.color}33`, width: `${maxPct}%`, borderRadius: '2px', transition: 'width 0.5s ease' }} />
                   {/* Current pts bar (solid) */}
                   <div style={{ position: 'absolute', inset: 0, background: team.color, width: `${pct}%`, borderRadius: '2px', transition: 'width 0.5s ease' }} />
                 </div>
