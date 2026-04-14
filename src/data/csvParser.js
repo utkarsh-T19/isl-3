@@ -75,16 +75,42 @@ export function sportLabelToId(label) {
   return null;
 }
 
-/** Parse a date string like "30th March", "30-03-2026", "30-03-26" → ISO yyyy-MM-dd */
-export function parseDate(raw) {
+/** Parse a date string like "30th March", "30-03-2026", "30-03-26" → ISO yyyy-MM-dd
+ *  Optional dayOfWeek ("Monday", "Tuesday" …) disambiguates DD-MM vs MM-DD when both ≤ 12.
+ */
+export function parseDate(raw, dayOfWeek) {
   if (!raw) return null;
   const s = raw.trim();
-  // Already ISO-ish: 30-03-2026 or 2026-03-30
-  const dashMatch = s.match(/^(\d{2})-(\d{2})-(\d{2,4})$/);
+  // Dash-separated: could be DD-MM-YYYY or MM-DD-YYYY
+  const dashMatch = s.match(/^(\d{1,2})-(\d{1,2})-(\d{2,4})$/);
   if (dashMatch) {
-    let [, d, m, y] = dashMatch;
+    let [, p1, p2, y] = dashMatch;
     if (y.length === 2) y = '20' + y;
-    return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+    const n1 = parseInt(p1, 10);
+    const n2 = parseInt(p2, 10);
+
+    const toISO = (dd, mm) => `${y}-${String(mm).padStart(2, '0')}-${String(dd).padStart(2, '0')}`;
+
+    // Unambiguous: first part > 12 → must be DD-MM
+    if (n1 > 12) return toISO(n1, n2);
+    // Unambiguous: second part > 12 → must be MM-DD (day > 12)
+    if (n2 > 12) return toISO(n2, n1);
+
+    // Ambiguous: both ≤ 12 — use dayOfWeek hint to disambiguate
+    if (dayOfWeek) {
+      const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+      const hint = dayOfWeek.trim().toLowerCase().slice(0, 3);
+      const matchesDay = (iso) => {
+        const d = new Date(iso + 'T12:00:00Z');
+        return !isNaN(d) && DAYS[d.getUTCDay()].startsWith(hint);
+      };
+      const ddmm = toISO(n1, n2);
+      const mmdd = toISO(n2, n1);
+      if (matchesDay(mmdd) && !matchesDay(ddmm)) return mmdd;
+      if (matchesDay(ddmm)) return ddmm;
+    }
+    // Default: DD-MM-YYYY
+    return toISO(n1, n2);
   }
   // "30th March" / "1st April" etc.
   const MONTHS = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
@@ -445,10 +471,9 @@ export function parseSchedule(text) {
 
       const dateStr = row[0]?.trim();
       if (!dateStr) continue;
-      const date = parseDate(dateStr);
-      if (!date) continue;
-
       const dayName  = row[1]?.trim() || '';
+      const date = parseDate(dateStr, dayName);
+      if (!date) continue;
       const activity = (row[2] || row[4] || '').trim();
       const time     = row[3]?.trim() || '—';
       const desc     = row[4]?.trim() || activity;

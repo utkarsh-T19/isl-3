@@ -131,7 +131,8 @@ const Standings = () => {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <BarChart2 size={28} color="var(--yellow)" />
+          <BarChart2 size=
+            {28} color="var(--yellow)" />
           <h1 style={{ fontSize: '28px' }}>Pool Standings</h1>
         </div>
         {/* Bracket toggle */}
@@ -165,29 +166,7 @@ const Standings = () => {
       {sport && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
 
-          {/* ── Pool Tables ── */}
-          {sport.isCombined ? (
-            renderCombined(sport)
-          ) : (
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              {sport.poolA.length > 0 && renderPool(sport.poolA, 'Pool A')}
-              {sport.poolB.length > 0 && renderPool(sport.poolB, 'Pool B')}
-            </div>
-          )}
-
-          {/* ── Qualification Strips ── */}
-          {!sport.isCombined && (
-            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-              <div style={{ flex: 1, minWidth: '260px' }}>
-                <QualificationStrip pool={sport.poolA} sportId={sport.sportId} label="Pool A" />
-              </div>
-              <div style={{ flex: 1, minWidth: '260px' }}>
-                <QualificationStrip pool={sport.poolB} sportId={sport.sportId} label="Pool B" />
-              </div>
-            </div>
-          )}
-
-          {/* ── Tournament Bracket ── */}
+          {/* ── Tournament Bracket (above pools) ── */}
           {showBracket && !sport.isCombined && bracket[sport.sportId] && (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
@@ -205,7 +184,30 @@ const Standings = () => {
                   poolB={sport.poolB}
                   bracket={bracket[sport.sportId]}
                   isCombined={sport.isCombined}
+                  fixtures={fixtures}
                 />
+              </div>
+            </div>
+          )}
+
+          {/* ── Pool Tables ── */}
+          {sport.isCombined ? (
+            renderCombined(sport)
+          ) : (
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              {sport.poolA.length > 0 && renderPool(sport.poolA, 'Pool A')}
+              {sport.poolB.length > 0 && renderPool(sport.poolB, 'Pool B')}
+            </div>
+          )}
+
+          {/* ── Qualification Strips ── */}
+          {!sport.isCombined && (
+            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+              <div style={{ flex: 1, minWidth: '260px' }}>
+                <QualificationStrip pool={sport.poolA} sportId={sport.sportId} label="Pool A" fixtures={fixtures} />
+              </div>
+              <div style={{ flex: 1, minWidth: '260px' }}>
+                <QualificationStrip pool={sport.poolB} sportId={sport.sportId} label="Pool B" fixtures={fixtures} />
               </div>
             </div>
           )}

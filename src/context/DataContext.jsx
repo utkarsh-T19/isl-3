@@ -225,4 +225,3 @@ export function useLeagueData() {
   return ctx;
 }
 
-export { BRACKET }; // re-export for convenience
