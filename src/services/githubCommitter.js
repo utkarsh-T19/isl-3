@@ -3,7 +3,7 @@
 const REPO_OWNER = 'utkarsh-T19';
 const REPO_NAME = 'isl-3';
 const FILE_PATH = 'src/data/leagueData.js';
-const BRANCH = 'main';
+const BRANCH = 'master';
 const API_BASE = 'https://api.github.com';
 
 /**

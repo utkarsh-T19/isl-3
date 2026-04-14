@@ -302,7 +302,7 @@ function FixtureCard({ fixture, updateMatchWinner }) {
         style={{
           fontSize: 17,
           fontWeight: 800,
-          marginBottom: 16,
+          marginBottom: 12,
           lineHeight: 1.4,
         }}
       >
@@ -312,6 +312,32 @@ function FixtureCard({ fixture, updateMatchWinner }) {
         </span>{' '}
         {t2Label}
       </div>
+
+      {/* current winner display for completed matches */}
+      {isCompleted && fixture.winner && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '8px 14px',
+            borderRadius: 12,
+            background: 'rgba(50,215,75,0.08)',
+            border: '1px solid rgba(50,215,75,0.2)',
+            marginBottom: 12,
+            fontSize: 13,
+            fontWeight: 700,
+          }}
+        >
+          <span>🏆</span>
+          <span style={{ color: '#32D74B' }}>
+            Current winner: {fixture.winner === 'draw' ? 'Draw' : teamLabel(fixture.winner)}
+          </span>
+          <span style={{ color: 'rgba(250,250,245,0.45)', fontSize: 11, marginLeft: 'auto' }}>
+            Click below to overwrite
+          </span>
+        </div>
+      )}
 
       {/* winner selector */}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -402,10 +428,27 @@ function AdminDashboard({ onLogout, onTokenInvalid }) {
   const [commitError, setCommitError] = useState('');
   const [showRetry, setShowRetry] = useState(false);
 
+  // Derive all unique fixture dates sorted chronologically
+  const fixtureDates = [...new Set(fixtures.map((f) => f.date.slice(0, 10)))].sort();
+
+  // Default to today if it has fixtures, otherwise first available date
   const today = todayDate();
-  const todayFixtures = fixtures.filter(
-    (f) => f.date.slice(0, 10) === today,
+  const [selectedDate, setSelectedDate] = useState(
+    () => fixtureDates.includes(today) ? today : fixtureDates[0] || today,
   );
+
+  const selectedFixtures = selectedDate
+    ? fixtures.filter((f) => f.date.slice(0, 10) === selectedDate)
+    : fixtures;
+
+  const handleDateClick = (d) => {
+    setSelectedDate((prev) => (prev === d ? null : d));
+  };
+
+  const formatDateLabel = (d) => {
+    const date = new Date(d + 'T12:00:00');
+    return date.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+  };
 
   const handleCommit = useCallback(async () => {
     setCommitLoading(true);
@@ -496,7 +539,7 @@ function AdminDashboard({ onLogout, onTokenInvalid }) {
             ⚡ Admin Panel
           </h1>
           <p style={{ color: 'rgba(250,250,245,0.65)', fontSize: 14 }}>
-            {today}
+            Select a date to manage fixtures
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -509,6 +552,46 @@ function AdminDashboard({ onLogout, onTokenInvalid }) {
         </div>
       </div>
 
+      {/* date selector */}
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 20, flexWrap: 'wrap' }}>
+        <input
+          type="date"
+          value={selectedDate || ''}
+          onChange={(e) => setSelectedDate(e.target.value || null)}
+          min={fixtureDates[0]}
+          max={fixtureDates[fixtureDates.length - 1]}
+          style={{
+            padding: '10px 16px',
+            borderRadius: 12,
+            border: '1px solid rgba(251,211,22,0.12)',
+            background: 'rgba(255,255,255,0.08)',
+            color: 'var(--text)',
+            fontSize: 14,
+            fontFamily: 'inherit',
+            fontWeight: 600,
+            outline: 'none',
+            colorScheme: 'dark',
+          }}
+        />
+        {selectedDate && (
+          <button
+            onClick={() => setSelectedDate(null)}
+            style={{
+              ...styles.btnGhost,
+              fontSize: 12,
+              padding: '8px 14px',
+            }}
+          >
+            Show All
+          </button>
+        )}
+        {!selectedDate && (
+          <span style={{ fontSize: 13, color: 'rgba(250,250,245,0.5)', fontWeight: 600 }}>
+            Showing all {selectedFixtures.length} fixtures
+          </span>
+        )}
+      </div>
+
       {/* deploy status / error banner */}
       <DeployStatus
         status={deployStatus}
@@ -517,7 +600,7 @@ function AdminDashboard({ onLogout, onTokenInvalid }) {
       />
 
       {/* fixture list */}
-      {todayFixtures.length === 0 ? (
+      {selectedFixtures.length === 0 ? (
         <div
           style={{
             ...styles.glass,
@@ -533,12 +616,12 @@ function AdminDashboard({ onLogout, onTokenInvalid }) {
               color: 'rgba(250,250,245,0.65)',
             }}
           >
-            No matches scheduled for today
+            No matches scheduled{selectedDate ? ` for ${formatDateLabel(selectedDate)}` : ''}
           </p>
         </div>
       ) : (
         <>
-          {todayFixtures.map((f) => (
+          {selectedFixtures.map((f) => (
             <FixtureCard
               key={f.id}
               fixture={f}
