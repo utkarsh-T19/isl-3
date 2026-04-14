@@ -11,7 +11,8 @@
  *   const { leaderboard, fixtures, sportStandings, schedule, teamsRoster, loading, error } = useLeagueData();
  */
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import { SPORT_WIN_POINTS } from '../data/constants';
 
 // Static seed data (always available — used as fallback)
 import {
@@ -157,9 +158,57 @@ export function DataProvider({ children }) {
 
   useEffect(() => { loadData(); }, [loadData]);
 
+  /**
+   * Optimistic in-memory update used by the Admin Panel.
+   * Adjusts both fixtures and leaderboard so the UI reflects the change
+   * immediately. Call reload() after a successful GitHub commit to sync
+   * the UI from the freshly written CSVs.
+   */
+  const updateMatchWinner = useCallback((fixtureId, winner) => {
+    setState((prev) => {
+      const fixtureIdx = prev.fixtures.findIndex((f) => f.id === fixtureId);
+      if (fixtureIdx === -1) return prev;
+
+      const fixture = prev.fixtures[fixtureIdx];
+      const oldWinner = fixture.winner;
+      const { sportId } = fixture;
+      const pts = SPORT_WIN_POINTS[sportId] ?? 0;
+
+      // Clone fixtures — replace just the one entry
+      const fixtures = prev.fixtures.map((f, i) =>
+        i === fixtureIdx
+          ? { ...f, winner, status: winner ? 'completed' : 'upcoming' }
+          : f,
+      );
+
+      // Deep-clone leaderboard points so we can safely mutate
+      const leaderboard = prev.leaderboard.map((e) => ({
+        ...e,
+        points: { ...e.points },
+      }));
+
+      const adjustPts = (winnerVal, delta) => {
+        if (!winnerVal || winnerVal === 'draw') return;
+        const teams = Array.isArray(winnerVal) ? winnerVal : [winnerVal];
+        teams.forEach((teamId) => {
+          const entry = leaderboard.find((e) => e.teamId === teamId);
+          if (entry && entry.points[sportId] !== undefined) {
+            entry.points[sportId] = Math.max(0, entry.points[sportId] + pts * delta);
+          }
+        });
+      };
+
+      adjustPts(oldWinner, -1); // subtract old
+      adjustPts(winner, +1);    // add new
+
+      return { ...prev, fixtures, leaderboard };
+    });
+  }, []);
+
   const contextValue = {
     ...state,
-    reload: loadData, // expose manual refresh
+    reload: loadData,
+    updateMatchWinner,
   };
 
   return (

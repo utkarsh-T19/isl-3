@@ -8,6 +8,7 @@ import Schedule from './pages/Schedule';
 import Teams from './pages/Teams';
 import Standings from './pages/Standings';
 import Progression from './pages/Progression';
+import AdminPanel from './pages/AdminPanel';
 import { DataProvider } from './context/DataContext';
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
             <Route path="standings" element={<Standings />} />
             <Route path="progression" element={<Progression />} />
           </Route>
+          {/* Admin panel sits outside Layout so it has no nav chrome */}
+          <Route path="admin" element={<AdminPanel />} />
         </Routes>
       </HashRouter>
     </DataProvider>

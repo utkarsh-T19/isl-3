@@ -123,6 +123,9 @@ export function parseLeaderboard(text) {
 
     const COLUMN_TO_KEY = {
       'cricket': 'mens_cricket',         // may encompass both in the sheet
+      'mens cricket': 'mens_cricket',
+      'womens cricket': 'womens_cricket',
+      "women's cricket": 'womens_cricket',
       'football': 'football',
       'chess': 'chess',
       'carrom': 'carrom',
