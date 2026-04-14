@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { TEAMS, ALL_SPORTS, SPORTS } from '../data/constants';
-import { useLeague } from '../context/LeagueContext';
+import { useLeagueData } from '../context/DataContext';
+import DataStatus from '../components/DataStatus';
 import { Calendar, X } from 'lucide-react';
 import CustomSelect from '../components/CustomSelect';
 
@@ -20,15 +21,23 @@ const SPORT_OPTIONS = [
   ...FIXTURE_SPORTS.map((s) => ({ value: s.id, label: s.name })),
 ];
 
-const Fixtures = () => {
-  const { fixtures } = useLeague();
+// Derive unique dates that have fixtures — computed per-render inside component
+// (see inside Fixtures component below)
 
-  // Derive unique dates that have fixtures (recomputes when context changes)
-  const dateOptions = useMemo(() => {
-    const fixtureDates = [...new Set(fixtures.map((f) => f.date.slice(0, 10)))].sort();
+const Fixtures = () => {
+  const { fixtures } = useLeagueData();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const teamFilter  = searchParams.get('team')  || 'all';
+  const sportFilter = searchParams.get('sport') || 'all';
+  const dateFilter  = searchParams.get('date')  || '';
+  const scrollTargetRef = useRef(null);
+
+  // Derive date options from live fixture data
+  const DATE_OPTIONS = React.useMemo(() => {
+    const dates = [...new Set(fixtures.map((f) => f.date.slice(0, 10)))].sort();
     return [
       { value: '', label: 'All Dates' },
-      ...fixtureDates.map((d) => {
+      ...dates.map((d) => {
         const date = new Date(d + 'T12:00:00');
         return {
           value: d,
@@ -37,11 +46,7 @@ const Fixtures = () => {
       }),
     ];
   }, [fixtures]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const teamFilter  = searchParams.get('team')  || 'all';
-  const sportFilter = searchParams.get('sport') || 'all';
-  const dateFilter  = searchParams.get('date')  || '';
-  const scrollTargetRef = useRef(null);
+
 
   const filteredMatches = fixtures.filter((match) => {
     const inTeam   = (field, target) => Array.isArray(field) ? field.includes(target) : field === target;
@@ -73,6 +78,7 @@ const Fixtures = () => {
 
   return (
     <div className="page page-narrow" style={{ maxWidth: '760px', margin: '0 auto' }}>
+      <DataStatus />
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
@@ -122,7 +128,7 @@ const Fixtures = () => {
         <CustomSelect
           value={dateFilter}
           onChange={(v) => update('date', v)}
-          options={dateOptions}
+          options={DATE_OPTIONS}
           placeholder="All Dates"
           minWidth="160px"
         />
@@ -147,7 +153,7 @@ const Fixtures = () => {
           )}
           {dateFilter && (
             <button onClick={() => update('date', '')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-full)', color: 'var(--text-2)', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
-              {dateOptions.find((d) => d.value === dateFilter)?.label} <X size={10} />
+              {DATE_OPTIONS.find((d) => d.value === dateFilter)?.label} <X size={10} />
             </button>
           )}
         </div>

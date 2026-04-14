@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Users, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { TEAMS } from '../data/constants';
-import { LEADERBOARD, TEAMS_ROSTER } from '../data/leagueData';
+import { useLeagueData } from '../context/DataContext';
+import DataStatus from '../components/DataStatus';
 
 const getTotal = (pts) => Object.values(pts).reduce((s, v) => s + (v || 0), 0);
-
-const RANK_OF = (() => {
-  const ranked = [...LEADERBOARD]
-    .map((r) => ({ teamId: r.teamId, total: getTotal(r.points) }))
-    .sort((a, b) => b.total - a.total);
-  const map = {};
-  ranked.forEach((r, i) => { map[r.teamId] = { rank: i + 1, total: r.total }; });
-  return map;
-})();
-
 const MEDALS = ['🥇', '🥈', '🥉'];
 
 const Teams = () => {
+  const { leaderboard, teamsRoster } = useLeagueData();
   const [expanded, setExpanded] = useState(null);
+
+  // Compute rank dynamically from live leaderboard data
+  const RANK_OF = useMemo(() => {
+    const ranked = [...leaderboard]
+      .map((r) => ({ teamId: r.teamId, total: getTotal(r.points) }))
+      .sort((a, b) => b.total - a.total);
+    const map = {};
+    ranked.forEach((r, i) => { map[r.teamId] = { rank: i + 1, total: r.total }; });
+    return map;
+  }, [leaderboard]);
+
+  const totalParticipants = Object.values(teamsRoster).reduce(
+    (s, r) => s + (r.members?.length || 0) + (r.captains?.length || 0), 0
+  );
 
   return (
     <div className="page" style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <DataStatus />
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
@@ -28,7 +35,7 @@ const Teams = () => {
         <h1 style={{ fontSize: '28px' }}>Teams</h1>
       </div>
       <p style={{ color: 'var(--text-2)', marginBottom: '28px', fontSize: '15px' }}>
-        8 houses · {Object.values(TEAMS_ROSTER).reduce((s, r) => s + r.members.length + r.captains.length, 0)}+ participants · Click any card to see the full roster
+        8 houses · {totalParticipants}+ participants · Click any card to see the full roster
       </p>
 
       {/* Grid */}
@@ -38,7 +45,7 @@ const Teams = () => {
         gap: '16px',
       }}>
         {TEAMS.map((team) => {
-          const roster = TEAMS_ROSTER[team.id];
+          const roster = teamsRoster[team.id];
           if (!roster) return null;
           const rankInfo = RANK_OF[team.id];
           const isExpanded = expanded === team.id;

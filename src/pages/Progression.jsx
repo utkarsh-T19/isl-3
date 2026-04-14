@@ -1,17 +1,18 @@
 import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { TrendingUp } from 'lucide-react';
-import { TEAMS } from '../data/constants';
-import { SPORT_WIN_POINTS } from '../data/constants';
-import { FIXTURES } from '../data/leagueData';
+import { TEAMS, SPORT_WIN_POINTS } from '../data/constants';
+import { useLeagueData } from '../context/DataContext';
+import DataStatus from '../components/DataStatus';
 
 const getTeam = (id) => TEAMS.find((t) => t.id === id);
 
-// ─── Build time-series ────────────────────────────────────────────────────────
-const buildProgressionSeries = () => {
+// buildProgressionSeries is now a function that takes fixtures as input
+// (called inside useMemo in the component)
+const buildProgressionSeries = (fixturesData) => {
   const totals = {};
   TEAMS.forEach((t) => { totals[t.id] = 0; });
 
-  const completed = [...FIXTURES]
+  const completed = [...fixturesData]
     .filter((f) => f.status === 'completed' && f.winner)
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
@@ -200,7 +201,8 @@ const SvgChart = ({ series, visibleTeams }) => {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 const Progression = () => {
-  const series = useMemo(() => buildProgressionSeries(), []);
+  const { fixtures } = useLeagueData();
+  const series = useMemo(() => buildProgressionSeries(fixtures), [fixtures]);
   const [visible, setVisible] = useState(
     Object.fromEntries(TEAMS.map((t) => [t.id, true]))
   );
@@ -214,6 +216,7 @@ const Progression = () => {
 
   return (
     <div className="page" style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <DataStatus />
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>

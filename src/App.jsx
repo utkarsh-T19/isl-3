@@ -9,12 +9,12 @@ import Teams from './pages/Teams';
 import Standings from './pages/Standings';
 import Progression from './pages/Progression';
 import AdminPanel from './pages/AdminPanel';
-import { LeagueProvider } from './context/LeagueContext';
+import { DataProvider } from './context/DataContext';
 
 function App() {
   return (
-    <HashRouter>
-      <LeagueProvider>
+    <DataProvider>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -25,12 +25,12 @@ function App() {
             <Route path="standings" element={<Standings />} />
             <Route path="progression" element={<Progression />} />
           </Route>
+          {/* Admin panel sits outside Layout so it has no nav chrome */}
           <Route path="admin" element={<AdminPanel />} />
         </Routes>
-      </LeagueProvider>
-    </HashRouter>
+      </HashRouter>
+    </DataProvider>
   );
 }
 
 export default App;
-
