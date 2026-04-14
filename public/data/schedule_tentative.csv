@@ -1,38 +1,34 @@
 Date,Day,Activity,Time,Activity,No of matches,Location,Fixtures/ Schedule,Fixtures/ Schedule,Fixtures/ Schedule
-30-03-2026,Monday,Opening ceremony,6 - 9 PM ,Opening Ceremony + Men's Cricket Qualifiers + Women's Cricket Qualifiers,3,Turf,"Cricket Men - Red vs Pink
-Blue vs Teal
-","Womens Cricket - Green + Teal vs Yellow + Purple
-",
+30-03-2026,Monday,Opening ceremony,6 - 9 PM,Opening Ceremony + Men's Cricket Qualifiers + Women's Cricket Qualifiers,3,Turf,"Cricket Men - Red vs Pink
+Blue vs Teal",Womens Cricket - Green + Teal vs Yellow + Purple,
 31-03-2026,Tuesday,,,,,,,,
-01-04-2026,Wednesday,Outdoor,7 - 9:30 PM ,Women's Cricket Qualifiers + Football Qualifiers,5,Turf,,"Womens Cricket - Green + Teal vs Blue + Red
-","F - Red vs Yellow
+04-01-2026,Wednesday,Outdoor,7 - 9:30 PM,Women's Cricket Qualifiers + Football Qualifiers,5,Turf,,Womens Cricket - Green + Teal vs Blue + Red,"F - Red vs Yellow
 Green vs Purple
 Blue vs Pink
 Teal vs Brown"
-02-04-2026,Thursday,Maundy Thursday ,,,,,,,
-03-04-2026,Friday,Floater,,,,,,,
+04-02-2026,Thursday,Maundy Thursday,,,,,,,
+04-03-2026,Friday,Floater,,,,,,,
 04-04-2026,Saturday,Week-off,,,,,,,
-05-04-2026,Sunday,Week-off,,,,,,,
-06-04-2026,Monday,Indoor,5:30 - 7:30 PM ,Carrom Qualifiers,6,Training room,"Teal vs Pink
+04-05-2026,Sunday,Week-off,,,,,,,
+04-06-2026,Monday,Indoor,5:30 - 7:30 PM,Carrom Qualifiers,6,Training room,"Teal vs Pink
 Purple vs Yellow
 Purple vs Pink","Red vs Brown
 Blue vs Green
 Blue vs Brown",
-07-04-2026,Tuesday,outdoor,7 - 9:30 PM ,Men's Cricket Qualifiers + Women's Cricket Qualifiers ,5,Turf,"Cricket Men - Red vs Teal
+04-07-2026,Tuesday,outdoor,7 - 9:30 PM,Men's Cricket Qualifiers + Women's Cricket Qualifiers,5,Turf,"Cricket Men - Red vs Teal
 Blue vs Pink
 Purple vs Brown","CW - Green + Teal vs Brown + Pink
 WC - Blue + Red vs Brown + Pink",
-08-04-2026,Wednesday,Indoor,5:30 - 7:30 PM ,Chess Qualifiers ,6,Office,"Pink vs Red
+04-08-2026,Wednesday,Indoor,5:30 - 7:30 PM,Chess Qualifiers,6,Office,"Pink vs Red
 Yellow vs Brown
 Brown vs Red","Green vs Teal
 Yellow vs Red
 Teal vs Purple",
-09-04-2026,Thursday,Outdoor,6:45 - 10 PM ,Men's Cricket Qualifiers + Football Qualifiers,5,Turf,"MC - Yellow vs Green
-",,"F - Red vs Green
+04-09-2026,Thursday,Outdoor,6:45 - 10 PM,Men's Cricket Qualifiers + Football Qualifiers,5,Turf,MC - Yellow vs Green,,"F - Red vs Green
 Yellow vs Purple
 Blue vs Teal
 Pink vs Brown"
-10-04-2026,Friday,Indoor,5:30 - 7:30 PM ,Table Tennis Qualifiers ,6,Office,"Yellow vs Teal
+04-10-2026,Friday,Indoor,5:30 - 7:30 PM,Table Tennis Qualifiers,6,Office,"Yellow vs Teal
 Pink vs Brown
 Green vs Red
 Blue vs Purple
@@ -40,29 +36,30 @@ Yellow vs Brown
 Blue vs Red
 Pink vs Teal
 Purple vs Red",,
-11-04-2026,Saturday,Week-off,,,,,,,
-12-04-2026,Sunday,Week-off,,,,,,,
-13-04-2026,Monday,Outdoor,7 - 9:30 PM ,Men's Cricket Qualifiers + Women cricket ,5,Turf,"Cricket Men - Brown vs Green
+04-11-2026,Saturday,Week-off,,,,,,,
+04-12-2026,Sunday,Week-off,,,,,,,
+13-04-2026,Monday,Outdoor,7 - 9:30 PM,Men's Cricket Qualifiers + Women cricket,5,Turf,"Cricket Men - Brown vs Green
+Yellow vs Purple 
 Pink vs Teal
-Red vs Blue
-Yellow vs Purple ",WC - Yellow + Purple vs Brown + Pink,
-14-04-2026,Tuesday,Indoor,5:30 - 8:30 PM ,Table Tennis Qualifiers ,6,Office,"Green vs Blue
-Pink vs Yellow","Teal vs Brown
+Red vs Blue",WC - Yellow + Purple vs Brown + Pink,
+14-04-2026,Tuesday,Indoor,5:30 - 8:30 PM,Table Tennis Qualifiers + Carrom,6,Office,"Table Tennis - Pink vs Yellow
+Teal vs Brown
 Green vs Purple
-",
-15-04-2026,Wednesday,Outdoor,7 - 9:30 PM ,Men's Pickleball Qualifiers + Women's Pickleball Qualifiers,8,Court,"MP - Brown vs Teal
+Green vs Blue","Carrom - Red vs Blue
+Red vs Green",
+15-04-2026,Wednesday,Outdoor,7 - 9:30 PM,Men's Pickleball Qualifiers + Women's Pickleball Qualifiers,8,Court,"MP - Brown vs Teal
 Blue vs Yellow
 Red vs Pink
 Green vs Purple","WP - Blue vs Teal
 Red vs Purple
 Yellow vs Brown
 Pink vs Green",
-16-04-2026,Thursday,Indoor,5:30 - 8:30 PM ,Chess Qualifiers ,6,Training room,"Pink vs Yellow
+16-04-2026,Thursday,Indoor,5:30 - 8:30 PM,Chess Qualifiers,6,Training room,"Pink vs Yellow
 Blue vs Green
 Blue vs Purple","Pink vs Brown
 Blue vs Teal
 Green vs Purple",
-17-04-2026,Friday,Outdoor,7 - 9:30 PM ,Men's Pickleball Qualifiers + Women's Pickleball Qualifiers,8,Court,"MP - Blue vs Teal
+17-04-2026,Friday,Outdoor,7 - 9:30 PM,Men's Pickleball Qualifiers + Women's Pickleball Qualifiers,8,Court,"MP - Blue vs Teal
 Red vs Purple
 Yellow vs Brown
 Pink vs Green","WP - Blue vs Brown
@@ -71,44 +68,43 @@ Red vs Green
 Pink vs Purple",
 18-04-2026,Saturday,Week-off,,,,,,,
 19-04-2026,Sunday,Week-off,,,,,,,
-20-04-2026,Monday,Outdoor,7 - 9:30 PM ,Men's Cricket Qualifiers + Women's Cricket Qualifiers ,3,Turf,"CM - Yellow vs Brown
+20-04-2026,Monday,Outdoor,7 - 9:30 PM,Men's Cricket Qualifiers + Women's Cricket Qualifiers,3,Turf,"CM - Yellow vs Brown
 Purple vs Green",WC - Yellow + Purple vs Blue + Red,
-21-04-2026,Tuesday,Indoor,5:30 - 7:30 PM ,Carrom Qualifiers,6,Office,"Teal vs Purple
+21-04-2026,Tuesday,Indoor,5:30 - 7:30 PM,Carrom Qualifiers,6,Office,"Teal vs Purple
 Yellow vs Pink
-Teal vs Yellow","Red vs Blue
-Green vs Brown
-Red vs Green",
-22-04-2026,Wednesday,Outdoor,7 - 9:30 PM ,Men's Pickleball Qualifiers + Women's Pickleball Qualifiers,8,Court,"MP - Blue vs Brown
+Teal vs Yellow
+Green vs Brown",,
+22-04-2026,Wednesday,Outdoor,7 - 9:30 PM,Men's Pickleball Qualifiers + Women's Pickleball Qualifiers,8,Court,"MP - Blue vs Brown
 Yellow vs Teal
 Red vs Green
 Pink vs Purple","WP - Blue vs Yellow
 Brown vs Teal
 Red vs Pink
 Green vs Purple",
-23-04-2026,Thursday,Indoor,5 - 8:30 PM ,Foosball Qualifiers,6,Office,"Brown vs Red
+23-04-2026,Thursday,Indoor,5 - 8:30 PM,Foosball Qualifiers,6,Office,"Brown vs Red
 Brown vs Yellow
 Blue vs Purple","Pink vs Green
 Pink vs Purple
 Green vs Purple",
-24-04-2026,Friday,Outdoor,7 - 9:30 PM ,Football Qualifiers,4,Turf,,,"F - Blue vs Brown
+24-04-2026,Friday,Outdoor,7 - 9:30 PM,Football Qualifiers,4,Turf,,,"F - Blue vs Brown
 Red vs Purple
 Yellow vs Green
 Pink vs Teal"
 25-04-2026,Saturday,Week-off,,,,,,,
 26-04-2026,Sunday,Week-off,,,,,,,
-27-04-2026,Monday,Outdoor,7 - 9:30 PM ,Cricket Semi Finals ,3,Turf,,,
-28-04-2026,Tuesday,Indoor,5 - 8:30 PM ,Foosball Qualifiers,6,Office,"Brown vs Teal
+27-04-2026,Monday,Outdoor,7 - 9:30 PM,Cricket Semi Finals,3,Turf,,,
+28-04-2026,Tuesday,Indoor,5 - 8:30 PM,Foosball Qualifiers,6,Office,"Brown vs Teal
 Red vs Yellow
 Red vs Teal","Yellow vs Teal
 Blue vs Pink
 Blue vs Green",
-29-04-2026,Wednesday,Outdoor,7 - 9:30 PM ,Football Semi Finals ,3,Turf,,,
-30-04-2026,Thursday,Indoor,5:30 - 7:30 PM ,Indoor Semi Finals ,6,Office,,,
-01-05-2026,Friday,Maharashtra day ,,,,,,,
-02-05-2026,Saturday,Week-off,,,,,,,
-03-05-2026,Sunday,Week-off,,,,,,,
-04-05-2026,Monday,Outdoor,7 - 9:30 PM ,Men's Pickleball + Women's Pickleball semis + finals,8,Court,,,
-05-05-2026,Tuesday,Indoor,5:30 - 7:30 PM ,Indoor Semi Finals ,6,Office,,,
-06-05-2026,Wednesday,Indoor,5:30 - 7:30 PM ,Indoor Finals ,4,Office,,,
-07-05-2026,Thursday,Outdoor,7 - 9 PM ,"SPORTS LEAGUE FINALS - Cricket Finals; Women's Cricket Finals; Football Finals, ",3,Turf,,,
-08-05-2026,Friday,,,,,,,,
+29-04-2026,Wednesday,Outdoor,7 - 9:30 PM,Football Semi Finals,3,Turf,,,
+,,,,,,,,,
+05-01-2026,Friday,Maharashtra day,,,,,,,
+05-02-2026,Saturday,Week-off,,,,,,,
+05-03-2026,Sunday,Week-off,,,,,,,
+05-04-2026,Monday,Outdoor,7 - 9:30 PM,Men's Pickleball + Women's Pickleball semis + finals,8,Court,,,
+05-05-2026,Tuesday,Indoor,5:30 - 7:30 PM,Indoor Semi Finals,8,Office,,,
+05-06-2026,Wednesday,Indoor,5:30 - 7:30 PM,Indoor Finals,8,Office,,,
+05-07-2026,Thursday,Outdoor,7 - 9 PM,"SPORTS LEAGUE FINALS - Cricket Finals; Women's Cricket Finals; Football Finals,",3,Turf,,,
+05-08-2026,Friday,,,,,,,,
