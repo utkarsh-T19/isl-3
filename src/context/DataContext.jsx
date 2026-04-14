@@ -35,11 +35,11 @@ import {
 
 // ── CSV file manifest ──────────────────────────────────────────────────────────
 const CSV_FILES = {
-  leaderboard:    '/data/leaderboard.csv',
-  winnersList:    '/data/winners_list.csv',
-  sportStandings: '/data/sports_wise_scores.csv',
-  schedule:       '/data/schedule_tentative.csv',
-  teamsRoster:    '/data/sl_3.0_teams.csv',
+  leaderboard:    `${import.meta.env.BASE_URL}data/leaderboard.csv`,
+  winnersList:    `${import.meta.env.BASE_URL}data/winners_list.csv`,
+  sportStandings: `${import.meta.env.BASE_URL}data/sports_wise_scores.csv`,
+  schedule:       `${import.meta.env.BASE_URL}data/schedule_tentative.csv`,
+  teamsRoster:    `${import.meta.env.BASE_URL}data/sl_3.0_teams.csv`,
 };
 
 // ── Context ────────────────────────────────────────────────────────────────────
