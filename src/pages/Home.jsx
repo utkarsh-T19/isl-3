@@ -97,7 +97,7 @@ const Home = () => {
                 <div style={{
                   width: '48px', height: '48px', borderRadius: '50%',
                   background: team?.color,
-                  boxShadow: `0 0 0 3px rgba(0,0,0,0.5), 0 0 20px ${team?.color}55`,
+                  boxShadow: `0 0 0 3px rgba(0,0,0,0.5), 0 0 20px color-mix(in srgb, ${team?.color} 33%, transparent)`,
                   border: i === 1 ? '2px solid var(--yellow)' : 'none',
                 }} />
                 <div style={{ textAlign: 'center' }}>

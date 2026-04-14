@@ -230,8 +230,8 @@ const Progression = () => {
 
       {/* Current leader callout */}
       {leader && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 20px', background: `${leader.color}15`, border: `1px solid ${leader.color}44`, borderRadius: '16px', marginBottom: '24px' }}>
-          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: leader.color, boxShadow: `0 0 16px ${leader.color}55` }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 20px', background: `color-mix(in srgb, ${leader.color} 8%, transparent)`, border: `1px solid color-mix(in srgb, ${leader.color} 27%, transparent)`, borderRadius: '16px', marginBottom: '24px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: leader.color, boxShadow: `0 0 16px color-mix(in srgb, ${leader.color} 33%, transparent)` }} />
           <div>
             <div style={{ fontSize: '11px', fontWeight: 800, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Current sports leader</div>
             <div style={{ fontSize: '18px', fontWeight: 900, color: leader.color }}>{leader.name} — {lastPt[leader.id]} pts</div>
@@ -258,7 +258,7 @@ const Progression = () => {
               style={{
                 display: 'flex', alignItems: 'center', gap: '7px',
                 padding: '6px 14px', borderRadius: '999px',
-                background: isOn ? `${team.color}22` : 'var(--surface)',
+                background: isOn ? `color-mix(in srgb, ${team.color} 13%, transparent)` : 'var(--surface)',
                 border: `1.5px solid ${isOn ? team.color : 'var(--border)'}`,
                 color: isOn ? team.color : 'var(--text-3)',
                 fontWeight: 700, fontSize: '13px',

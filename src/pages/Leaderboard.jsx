@@ -69,8 +69,8 @@ const Leaderboard = () => {
           const podiumH = ['80px', '110px', '56px'];
           return (
             <div key={row.teamId} style={{ flex: 1, maxWidth: '160px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '24px' }}>{MEDALS[i]}</span>
-              <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: team?.color, boxShadow: `0 0 0 3px rgba(0,0,0,0.5), 0 4px 20px ${team?.color}55` }} />
+              <span style={{ fontSize: '24px' }}>{[MEDALS[1], MEDALS[0], MEDALS[2]][i]}</span>
+              <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: team?.color, boxShadow: `0 0 0 3px rgba(0,0,0,0.5), 0 4px 20px color-mix(in srgb, ${team?.color} 33%, transparent)` }} />
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontWeight: 800, fontSize: '14px' }}>{team?.name}</div>
                 <div className="gold-text" style={{ fontWeight: 900, fontSize: '28px' }}>{pts}</div>
@@ -188,7 +188,7 @@ const Leaderboard = () => {
                             display: 'inline-block', padding: '2px 8px', borderRadius: '6px',
                             fontWeight: pts > 0 ? 700 : 400,
                             color: pts > 0 ? team?.color : 'var(--text-3)',
-                            background: pts > 0 ? `${team?.color}18` : 'transparent',
+                            background: pts > 0 ? `color-mix(in srgb, ${team?.color} 9%, transparent)` : 'transparent',
                           }}>
                             {pts || '—'}
                           </span>

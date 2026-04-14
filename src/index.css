@@ -11,6 +11,20 @@
   --yellow-glow:   rgba(251, 211, 22, 0.22);
   --yellow-subtle: rgba(251, 211, 22, 0.08);
 
+  /* ── Team Colours ── */
+  --team-yellow:   #FBD316;
+  --team-red:      #FF0000;
+  --team-green:    #34A853;
+  --team-blue:     #1C43B9;
+  --team-pink:     #FF8282;
+  --team-teal:     #1FC9B4;
+  --team-brown:    #793722;
+  --team-purple:   #9900FF;
+
+  /* ── Background Gradients ── */
+  --bg-grad-1:     rgba(251, 211, 22, 0.12);
+  --bg-grad-2:     rgba(251, 211, 22, 0.05);
+
   /* ── Backgrounds ── */
   --bg:            #0E0C00;
   --bg-2:          #181400;
@@ -54,33 +68,52 @@
 
 /* ═══ Light Theme Overrides ════════════════════════════════════════════════ */
 :root[data-theme="light"] {
-  /* ── Backgrounds ── */
-  --bg:            #FAFAF5;
-  --bg-2:          #F0EFE8;
-  --bg-3:          #E6E5DC;
+  /* ── Brand Colours ── */
+  --yellow:        #FBD316; /* Reverted to same yellow as dark mode */
+  --yellow-light:  #FFE566;
+  --yellow-dark:   #C9A800;
 
-  /* ── Surfaces (glass panels) ── */
+  /* ── Team Colours (Optimised for light mod) ── */
+  --team-yellow:   #FBD316;
+  --team-pink:     #D94A4A;
+  --team-teal:     #179685;
+  --team-red:      #D60000;
+  --team-green:    #2B8C45;
+  --team-blue:     #1A3EAB;
+  --team-brown:    #793722;
+  --team-purple:   #8A00E6;
+
+  /* ── Background Gradients ── */
+  --bg-grad-1:     rgba(251, 211, 22, 0.35); /* Noticeable yellow glow */
+  --bg-grad-2:     rgba(251, 211, 22, 0.15);
+
+  /* ── Backgrounds ── */
+  --bg:            #FCF8E3; /* Light faded shade of yellow */
+  --bg-2:          #F2EED6; 
+  --bg-3:          #E8E3CA;
+
+  /* ── Surfaces (glass panels - reverted to original dark tint) ── */
   --surface:       rgba(0, 0, 0, 0.04);
   --surface-2:     rgba(0, 0, 0, 0.07);
-  --surface-hover: rgba(201, 168, 0, 0.08);
+  --surface-hover: rgba(251, 211, 22, 0.12);
 
   /* ── Borders ── */
-  --border:        rgba(0, 0, 0, 0.10);
-  --border-strong: rgba(0, 0, 0, 0.20);
+  --border:        rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.18);
 
   /* ── Text ── */
-  --text:          #1A1800;
-  --text-2:        rgba(26, 24, 0, 0.65);
-  --text-3:        rgba(26, 24, 0, 0.45);
+  --text:          #1A1700;
+  --text-2:        rgba(26, 23, 0, 0.65);
+  --text-3:        rgba(26, 23, 0, 0.45);
 
   /* ── Misc (theme-dependent) ── */
-  --shadow:        0 4px 32px rgba(0, 0, 0, 0.08);
-  --shadow-glow:   0 0 32px rgba(201, 168, 0, 0.10);
-  --yellow-glow:   rgba(201, 168, 0, 0.18);
-  --yellow-subtle: rgba(201, 168, 0, 0.06);
-  --bottom-nav-bg: rgba(250, 250, 245, 0.95);
+  --shadow:        0 4px 32px rgba(0, 0, 0, 0.06);
+  --shadow-glow:   0 8px 32px rgba(251, 211, 22, 0.15);
+  --yellow-glow:   rgba(251, 211, 22, 0.20);
+  --yellow-subtle: rgba(251, 211, 22, 0.08);
+  --bottom-nav-bg: rgba(252, 248, 227, 0.95);
 
-  /* Brand yellows, greens, reds, radii, blur unchanged */
+  /* Greens, reds, radii, blur unchanged */
 }
 
 /* ═══ Reset ════════════════════════════════════════════════════════════════ */
@@ -93,8 +126,8 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background-color: var(--bg);
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(251,211,22,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 30% at 90% 90%, rgba(251,211,22,0.05) 0%, transparent 50%);
+    radial-gradient(ellipse 80% 50% at 50% -10%, var(--bg-grad-1) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 90% 90%, var(--bg-grad-2) 0%, transparent 50%);
   background-attachment: fixed;
   color: var(--text);
   -webkit-font-smoothing: antialiased;

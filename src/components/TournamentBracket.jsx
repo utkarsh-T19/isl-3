@@ -21,6 +21,9 @@ const getQualStatus = (entry, pool, sportId, fixtures) => {
   const pts = SPORT_WIN_POINTS[sportId] || 5;
   const myMax = entry.points + countRemaining(entry.teamId, sportId, fixtures) * pts;
 
+  const totalPoolMax = pool.reduce((acc, e) => acc + e.points + countRemaining(e.teamId, sportId, fixtures) * pts, 0);
+  if (totalPoolMax === 0) return 'contending';
+
   const othersAboveMyMax = pool.filter(
     (e) => e.teamId !== entry.teamId && e.points > myMax
   ).length;
@@ -56,7 +59,7 @@ const BracketSlot = ({ teamId, label, sublabel, isDerived, isTbd, isWinner, qual
     <div style={{
       padding: '8px 12px',
       background: isWinner ? 'rgba(251,211,22,0.12)' : statusCfg ? statusCfg.bg : 'var(--surface-2)',
-      border: `1px solid ${isWinner ? 'var(--yellow)' : statusCfg ? statusCfg.color + '66' : teams[0] ? `${teams[0].color}44` : 'var(--border)'}`,
+      border: `1px solid ${isWinner ? 'var(--yellow)' : statusCfg ? 'color-mix(in srgb, ' + statusCfg.color + ' 40%, transparent)' : teams[0] ? `color-mix(in srgb, ${teams[0].color} 27%, transparent)` : 'var(--border)'}`,
       borderRadius: '10px',
       minWidth: '110px',
       maxWidth: '140px',
@@ -70,7 +73,7 @@ const BracketSlot = ({ teamId, label, sublabel, isDerived, isTbd, isWinner, qual
           <>
             <div style={{ display: 'flex', gap: '2px', flexShrink: 0 }}>
               {teams.map((t) => (
-                <div key={t.id} style={{ width: '16px', height: '16px', borderRadius: '50%', background: t.color, boxShadow: `0 1px 4px ${t.color}55` }} />
+                <div key={t.id} style={{ width: '16px', height: '16px', borderRadius: '50%', background: t.color, boxShadow: `0 1px 4px color-mix(in srgb, ${t.color} 33%, transparent)` }} />
               ))}
             </div>
             <span style={{ fontSize: '13px', fontWeight: 700, color: isWinner ? 'var(--yellow)' : 'var(--text)' }}>

@@ -16,6 +16,9 @@ const getQualStatus = (entry, pool, sportId, fixtures) => {
   const rem = countRemaining(entry.teamId, sportId, fixtures);
   const myMax = entry.points + rem * ptsPerWin;
 
+  const totalPoolMax = pool.reduce((acc, e) => acc + e.points + countRemaining(e.teamId, sportId, fixtures) * ptsPerWin, 0);
+  if (totalPoolMax === 0) return 'contending';
+
   const othersAboveMyMax = pool.filter(
     (e) => e.teamId !== entry.teamId && e.points > myMax
   ).length;
@@ -70,11 +73,11 @@ const QualificationStrip = ({ pool, sportId, label, fixtures = [] }) => {
                 display: 'flex', alignItems: 'center', gap: '10px',
                 padding: '10px 14px', borderRadius: '12px',
                 background: cfg.bg,
-                border: `1px solid ${cfg.color}33`,
+                border: `1px solid color-mix(in srgb, ${cfg.color} 20%, transparent)`,
               }}
             >
               {/* Team */}
-              <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: team.color, flexShrink: 0, boxShadow: `0 2px 6px ${team.color}44` }} />
+              <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: team.color, flexShrink: 0, boxShadow: `0 2px 6px color-mix(in srgb, ${team.color} 27%, transparent)` }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                   <span style={{ fontWeight: 700, fontSize: '14px' }}>{team.name}</span>
@@ -85,7 +88,7 @@ const QualificationStrip = ({ pool, sportId, label, fixtures = [] }) => {
                 {/* Progress: current vs max, relative to pool's highest max */}
                 <div style={{ height: '4px', borderRadius: '2px', background: 'var(--surface-2)', overflow: 'hidden', position: 'relative' }}>
                   {/* Max potential bar (faded) */}
-                  <div style={{ position: 'absolute', inset: 0, background: `${team.color}33`, width: `${maxPct}%`, borderRadius: '2px', transition: 'width 0.5s ease' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: `color-mix(in srgb, ${team.color} 20%, transparent)`, width: `${maxPct}%`, borderRadius: '2px', transition: 'width 0.5s ease' }} />
                   {/* Current pts bar (solid) */}
                   <div style={{ position: 'absolute', inset: 0, background: team.color, width: `${pct}%`, borderRadius: '2px', transition: 'width 0.5s ease' }} />
                 </div>

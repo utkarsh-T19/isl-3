@@ -53,7 +53,7 @@ const Standings = () => {
                 <span style={{ width: '20px', fontSize: '14px', textAlign: 'center', flexShrink: 0 }}>
                   {idx < 3 ? MEDALS[idx] : idx + 1}
                 </span>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: team.color, flexShrink: 0, boxShadow: `0 2px 8px ${team.color}44` }} />
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: team.color, flexShrink: 0, boxShadow: `0 2px 8px color-mix(in srgb, ${team.color} 27%, transparent)` }} />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px' }}>{team.name}</div>
                   <div style={{ height: '3px', borderRadius: '2px', background: 'var(--surface-2)', overflow: 'hidden' }}>

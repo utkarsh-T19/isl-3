@@ -140,7 +140,7 @@ const Fixtures = () => {
           {teamFilter !== 'all' && (() => {
             const team = getTeam(teamFilter);
             return (
-              <button onClick={() => update('team', 'all')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: `${team?.color}22`, border: `1px solid ${team?.color}44`, borderRadius: 'var(--radius-full)', color: team?.color, fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+              <button onClick={() => update('team', 'all')} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: `color-mix(in srgb, ${team?.color} 13%, transparent)`, border: `1px solid color-mix(in srgb, ${team?.color} 27%, transparent)`, borderRadius: 'var(--radius-full)', color: team?.color, fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: team?.color }} />
                 {team?.name} <X size={10} />
               </button>
@@ -205,7 +205,7 @@ const Fixtures = () => {
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', opacity: t1Lost ? 0.3 : 1, filter: t1Lost ? 'grayscale(80%)' : 'none', transition: 'all 0.3s' }}>
                   <div style={{ position: 'relative', width: t1s.length > 1 ? 72 : 48, height: 48 }}>
                     {t1s.map((t, i) => (
-                      <div key={t.id} style={{ width: 48, height: 48, borderRadius: '50%', background: t.color, border: t1Won ? '2px solid var(--green)' : '2px solid var(--border)', boxShadow: t1Won ? '0 0 12px rgba(50,215,75,0.4)' : `0 4px 12px ${t.color}44`, position: 'absolute', left: i * 24, zIndex: 5 - i }} />
+                      <div key={t.id} style={{ width: 48, height: 48, borderRadius: '50%', background: t.color, border: t1Won ? '2px solid var(--green)' : '2px solid var(--border)', boxShadow: t1Won ? '0 0 12px rgba(50,215,75,0.4)' : `0 4px 12px color-mix(in srgb, ${t.color} 27%, transparent)`, position: 'absolute', left: i * 24, zIndex: 5 - i }} />
                     ))}
                   </div>
                   <span style={{ fontWeight: t1Won ? 800 : 600, fontSize: '14px', textAlign: 'center', color: t1Won ? 'var(--yellow)' : 'var(--text)' }}>
@@ -225,7 +225,7 @@ const Fixtures = () => {
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', opacity: t2Lost ? 0.3 : 1, filter: t2Lost ? 'grayscale(80%)' : 'none', transition: 'all 0.3s' }}>
                   <div style={{ position: 'relative', width: t2s.length > 1 ? 72 : 48, height: 48 }}>
                     {t2s.map((t, i) => (
-                      <div key={t.id} style={{ width: 48, height: 48, borderRadius: '50%', background: t.color, border: t2Won ? '2px solid var(--green)' : '2px solid var(--border)', boxShadow: t2Won ? '0 0 12px rgba(50,215,75,0.4)' : `0 4px 12px ${t.color}44`, position: 'absolute', left: i * 24, zIndex: 5 - i }} />
+                      <div key={t.id} style={{ width: 48, height: 48, borderRadius: '50%', background: t.color, border: t2Won ? '2px solid var(--green)' : '2px solid var(--border)', boxShadow: t2Won ? '0 0 12px rgba(50,215,75,0.4)' : `0 4px 12px color-mix(in srgb, ${t.color} 27%, transparent)`, position: 'absolute', left: i * 24, zIndex: 5 - i }} />
                     ))}
                   </div>
                   <span style={{ fontWeight: t2Won ? 800 : 600, fontSize: '14px', textAlign: 'center', color: t2Won ? 'var(--yellow)' : 'var(--text)' }}>
