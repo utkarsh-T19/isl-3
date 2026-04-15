@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Trophy, Calendar, Home, Users, BarChart2, ClipboardList, TrendingUp } from 'lucide-react';
 import ThemeSwitcher from './ThemeSwitcher';
@@ -16,6 +16,13 @@ const NAV_ITEMS = [
 const Layout = () => {
   const { pathname } = useLocation();
   const isActive = (to) => to === '/' ? pathname === '/' : pathname.startsWith(to);
+
+  // Track SPA route changes in GoatCounter
+  useEffect(() => {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: pathname });
+    }
+  }, [pathname]);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
