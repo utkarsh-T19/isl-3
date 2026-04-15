@@ -5,7 +5,7 @@
 
 /** SHA-256 hex digest of the admin passphrase */
 export const ADMIN_PASSPHRASE_HASH =
-  '11076ec479b46793be9826086e0764d957e19f9db24b0cdc4cea8b44586b525a';
+  'd342aee94e1f8903a5ae23638a68dfc8c17b234f08c028dcd3696adf51da3ad5';
 
 /**
  * Hashes an arbitrary string with SHA-256 and returns the hex digest.
