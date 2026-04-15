@@ -1,9 +1,9 @@
-HOUSES,Cricket,Womens Cricket,Football,Chess,Carrom,Foosball,Pickleball,TT,Dance,House Branding,Cringe Recreation,Shades of Glory,Trivia + games,TOTAL
-Pink,20,15,10,5,0,0,0,5,0,2,4,5,11,77
-Red,30,5,10,5,5,0,0,15,0,1,0,0,4,75
-Teal,0,0,20,10,5,0,0,15,0,6,6,0,8,70
-Blue,10,5,0,0,15,0,0,5,2,9,9,0,7,62
-Green,20,0,20,0,0,0,0,10,0,1,7,0,4,62
-Brown,0,15,10,0,5,0,0,0,0,4,8,3,11,56
-Purple,20,5,10,0,5,0,0,0,2,0,8,0,1,51
-Yellow,0,5,0,10,5,0,0,10,0,0,5,1,4,40
+HOUSES,CRICKET,FOOTBALL,CHESS,CARROM,FOOSBALL,PICKLEBALL,TT,DANCE,HOUSE BRANDING,Cringe Recreation,Shades of Glory,Trivia + games,TOTAL,
+PINK,35,10,5,,,10,5,,2,4,5,11,87,
+RED,35,10,5,5,,10,15,,1,,,4,85,-2
+TEAL,,20,10,5,,20,15,,6,6,,8,90,
+BLUE,15,,,15,,10,5,2,9,9,,7,72,
+GREEN,20,20,,,,10,10,,1,7,,4,72,
+BROWN,15,10,,5,,,,,4,8,3,11,56,-2
+PURPLE,25,10,,5,,10,,2,,8,,1,61,
+YELLOW,5,,10,5,,10,10,,,5,1,4,50,-2
