@@ -171,6 +171,7 @@ export function parseLeaderboard(text) {
     };
 
     const header = rows[0].map((h) => h.trim().toLowerCase());
+    const negativeIdx = header.findIndex((h) => h === 'negative' || h === 'negatives');
     const result = [];
 
     for (let r = 1; r < rows.length; r++) {
@@ -182,6 +183,7 @@ export function parseLeaderboard(text) {
 
       const points = {};
       for (let c = 1; c < header.length; c++) {
+        if (c === negativeIdx) continue; // negative is tracked separately
         const colLabel = header[c];
         const key = COLUMN_TO_KEY[colLabel];
         if (!key) continue;
@@ -195,7 +197,9 @@ export function parseLeaderboard(text) {
         'cringe_recreation', 'shades_of_glory', 'trivia'];
       ALL_KEYS.forEach((k) => { if (points[k] === undefined) points[k] = 0; });
 
-      result.push({ teamId, points });
+      const negative = negativeIdx >= 0 ? (parseInt(row[negativeIdx], 10) || 0) : 0;
+
+      result.push({ teamId, points, negative });
     }
 
     return result.length > 0 ? result : null;
@@ -230,7 +234,7 @@ export function parseWinnersList(text) {
       const row = rows[r];
       if (isBlankRow(row)) { timeOffset = 0; continue; }
 
-      const [rawDate, rawSport, rawTeams, rawWinner] = row;
+      const [rawDate, rawSport, rawTeams, rawWinner, rawPoints] = row;
 
       // Date carries forward if current row's date cell is empty
       const parsedDate = parseDate(rawDate);
@@ -265,6 +269,25 @@ export function parseWinnersList(text) {
       sportCounters[sportKey] = (sportCounters[sportKey] || 0) + 1;
       const id = `${sportKey}-${sportCounters[sportKey]}`;
 
+      // Parse Points column → winnerPts (each member of `winner` array gets this) + loserPts (each non-winner side gets this)
+      // Forms: "10" → {10, 0}; "5+5" / "25+25" → {5/25, 0}; "50/35" → {50, 35}; "" → fallback to SPORT_WIN_POINTS
+      let winnerPts = SPORT_WIN_POINTS[sportId] ?? 5;
+      let loserPts = 0;
+      const rawP = (rawPoints || '').trim();
+      if (rawP) {
+        if (rawP.includes('/')) {
+          const [w, l] = rawP.split('/').map((s) => parseInt(s.trim(), 10));
+          winnerPts = isNaN(w) ? 0 : w;
+          loserPts  = isNaN(l) ? 0 : l;
+        } else if (rawP.includes('+')) {
+          const v = parseInt(rawP.split('+')[0].trim(), 10);
+          winnerPts = isNaN(v) ? 0 : v;
+        } else {
+          const v = parseInt(rawP, 10);
+          if (!isNaN(v)) winnerPts = v;
+        }
+      }
+
       results.push({
         id,
         sportId,
@@ -273,6 +296,8 @@ export function parseWinnersList(text) {
         date: `${currentDate}T${String(12 + Math.floor(timeOffset / 2)).padStart(2, '0')}:${String((timeOffset % 2) * 30).padStart(2, '0')}:00Z`,
         status: 'completed',
         winner,
+        pointsAwarded: winnerPts,
+        runnerUpPoints: loserPts,
       });
       timeOffset++;
     }
@@ -609,34 +634,44 @@ export function parseTeamsRoster(text) {
 export function mergeFixtures(staticFixtures, csvCompleted) {
   if (!csvCompleted || csvCompleted.length === 0) return staticFixtures;
 
-  // Build a lookup map keyed by "sportId::sortedTeamIds"
-  const makeKey = (sportId, t1, t2) => {
+  // Build a lookup map keyed by "sportId::date::sortedTeamIds".
+  // Date is part of the key so that the same matchup at different stages
+  // (pool vs SF/Final) doesn't collide.
+  const makeKey = (sportId, t1, t2, date) => {
     const normalise = (t) => (Array.isArray(t) ? [...t].sort().join('+') : t);
     const sides = [normalise(t1), normalise(t2)].sort();
-    return `${sportId}::${sides[0]}::${sides[1]}`;
+    const dateKey = (date || '').slice(0, 10);
+    return `${sportId}::${dateKey}::${sides[0]}::${sides[1]}`;
   };
 
   const csvMap = new Map();
   for (const fix of csvCompleted) {
-    csvMap.set(makeKey(fix.sportId, fix.team1Id, fix.team2Id), fix);
+    csvMap.set(makeKey(fix.sportId, fix.team1Id, fix.team2Id, fix.date), fix);
   }
 
   const merged = [];
   const matchedCsvKeys = new Set();
 
   for (const fix of staticFixtures) {
-    const key = makeKey(fix.sportId, fix.team1Id, fix.team2Id);
+    const key = makeKey(fix.sportId, fix.team1Id, fix.team2Id, fix.date);
     const csvFix = csvMap.get(key);
     if (csvFix) {
-      // Override with actual result from CSV
+      // Override with actual result from CSV — also propagate parsed points so the
+      // progression chart can use per-match values.
       matchedCsvKeys.add(key);
-      merged.push({ ...fix, status: 'completed', winner: csvFix.winner });
+      merged.push({
+        ...fix,
+        status: 'completed',
+        winner: csvFix.winner,
+        pointsAwarded: csvFix.pointsAwarded,
+        runnerUpPoints: csvFix.runnerUpPoints,
+      });
     } else {
       merged.push(fix);
     }
   }
 
-  // Append any CSV results that weren't in the static list (safety net)
+  // Append any CSV results that weren't in the static list (safety net for SFs/finals)
   for (const [key, fix] of csvMap.entries()) {
     if (!matchedCsvKeys.has(key)) merged.push(fix);
   }

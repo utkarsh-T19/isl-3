@@ -35,9 +35,18 @@ const buildProgressionSeries = (fixturesData) => {
 
   Object.keys(byDay).sort().forEach((dateStr) => {
     byDay[dateStr].forEach((match) => {
-      const pts = SPORT_WIN_POINTS[match.sportId] || 5;
+      const winnerPts = match.pointsAwarded ?? SPORT_WIN_POINTS[match.sportId] ?? 5;
+      const loserPts  = match.runnerUpPoints || 0;
       const winners = Array.isArray(match.winner) ? match.winner : [match.winner];
-      winners.forEach((w) => { totals[w] = (totals[w] || 0) + pts; });
+      const winnerSet = new Set(winners);
+      winners.forEach((w) => { if (w) totals[w] = (totals[w] || 0) + winnerPts; });
+      if (loserPts > 0) {
+        const t1 = Array.isArray(match.team1Id) ? match.team1Id : [match.team1Id];
+        const t2 = Array.isArray(match.team2Id) ? match.team2Id : [match.team2Id];
+        [...t1, ...t2].forEach((id) => {
+          if (id && !winnerSet.has(id)) totals[id] = (totals[id] || 0) + loserPts;
+        });
+      }
     });
     const d = new Date(dateStr + 'T12:00:00');
     series.push({

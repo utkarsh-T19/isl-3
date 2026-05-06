@@ -114,14 +114,34 @@ Date,Sport/ Category,Teams,Winners,Points
 23/04/2026,Foosball,Brown vs Teal,Teal,5
 23/04/2026,Foosball,Blue vs Green,Green,5
 ,,,,
-27/04/2026,Cricket,Red vs Green,Red,
-27/04/2026,Cricket,Red + Blue vs Green vs Teal,Teal + Green,25+25
-27/04/2026,Cricket,Purple vs Pink,Purple,
-,Cricket,Green vs Pink,Green,
+27/04/2026,Cricket,Red vs Green,Red,0
+27/04/2026,Women Cricket,Red + Blue vs Green + Teal,Teal + Green,25+25
+27/04/2026,Cricket,Purple vs Pink,Purple,0
+,Cricket,Green vs Pink,Green,25/0
 ,,,,
-,,,Teal,
-,,,Purple,
-,,,Green,
+04/05/2026,Pickleball Men,Teal vs Red,Teal,0
+04/05/2026,Pickleball Men,Blue vs Purple,Blue,0
+04/05/2026,Pickleball Men,Teal vs Blue,Teal,50/35
+04/05/2026,Pickleball Men,Red vs Purple,Red,25/0
+04/05/2026,Pickleball Women,Yellow vs Pink,Yellow,0
+04/05/2026,Pickleball Women,Teal vs Purple,Purple,0
+04/05/2026,Pickleball Women,Yellow vs Purple,Purple,50/35
+04/05/2026,Pickleball Women,Pink vs Teal,Pink,25/0
 ,,,,
-,,,Brown,
-,,,Purple,
+05/05/2026,Carrom,Yellow vs Brown,Brown,0
+05/05/2026,Carrom,Blue vs Purple,Blue,0
+05/05/2026,Foosball,Red vs Pink,Red,0
+05/05/2026,Foosball,Green vs Yellow,Yellow,0
+05/05/2026,Chess,Pink vs Teal,Pink,0
+05/05/2026,Chess,Yellow vs Blue,Yellow,0
+,,,,
+06/05/2026,Carrom,Brown vs Blue,Brown,50/35
+06/05/2026,Carrom,Yellow vs Purple,Yellow,25/0
+06/05/2026,Foosball,Red vs Yellow,Yellow,50/35
+06/05/2026,Foosball,Pink vs Green,Pink,25/0
+06/05/2026,Chess,Pink vs Yellow,Pink,50/35
+06/05/2026,Chess,Teal vs Blue,Blue,25/0
+06/05/2026,Table Tennis,Red vs Yellow,Yellow,0
+06/05/2026,Table Tennis,Teal vs Green,Teal,0
+06/05/2026,Table Tennis,Yellow vs Teal,Teal,50/35
+06/05/2026,Table Tennis,Red vs Green,Green,25/0

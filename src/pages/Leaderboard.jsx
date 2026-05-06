@@ -5,8 +5,9 @@ import { useLeagueData } from '../context/DataContext';
 import DataStatus from '../components/DataStatus';
 import { ArrowUpDown, Trophy } from 'lucide-react';
 
-const getTotal = (pts) => Object.values(pts).reduce((s, v) => s + (v || 0), 0);
-const getTeam  = (id) => TEAMS.find((t) => t.id === id);
+const sumPoints = (pts) => Object.values(pts).reduce((s, v) => s + (v || 0), 0);
+const getTotal  = (row) => sumPoints(row.points) - (row.negative || 0);
+const getTeam   = (id) => TEAMS.find((t) => t.id === id);
 
 const SPORT_CATEGORIES = [
   { id: 'overall',              label: 'Overall' },
@@ -43,7 +44,7 @@ const Leaderboard = () => {
 
   const sortedData = useMemo(() => {
     return [...leaderboard]
-      .map((r) => ({ ...r, total: getTotal(r.points) }))
+      .map((r) => ({ ...r, total: getTotal(r) }))
       .sort((a, b) => {
         const av = sortConfig.key === 'total' ? a.total : (a.points[sortConfig.key] || 0);
         const bv = sortConfig.key === 'total' ? b.total : (b.points[sortConfig.key] || 0);
@@ -149,6 +150,7 @@ const Leaderboard = () => {
                     Total <ArrowUpDown size={13} opacity={sortConfig.key === 'total' ? 1 : 0.3} />
                   </div>
                 </th>
+                <th style={{ minWidth: '70px' }}>Negative</th>
                 {ALL_SPORTS.map((sport) => (
                   <th
                     key={sport.id}
@@ -181,6 +183,9 @@ const Leaderboard = () => {
                       </div>
                     </td>
                     <td style={{ fontWeight: 900, fontSize: '17px', color: 'var(--yellow)' }}>{row.total}</td>
+                    <td style={{ fontWeight: 800, fontSize: '14px', color: (row.negative || 0) > 0 ? 'var(--red-status)' : 'var(--text-3)' }}>
+                      {(row.negative || 0) > 0 ? `−${row.negative}` : '—'}
+                    </td>
                     {ALL_SPORTS.map((sport) => {
                       const pts = row.points[sport.id] || 0;
                       return (

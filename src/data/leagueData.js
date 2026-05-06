@@ -6,48 +6,56 @@ export const LEADERBOARD = [
     points: {
       football: 0, mens_cricket: 0, womens_cricket: 5, table_tennis: 5, chess: 10, mens_pickleball: 0, womens_pickleball: 0, carrom: 5, foosball: 0, dance: 0, house_branding: 0, cringe_recreation: 5, shades_of_glory: 1, trivia: 4,
     },
+    negative: 0,
   },
   {
     teamId: 'red',
     points: {
       football: 10, mens_cricket: 30, womens_cricket: 5, table_tennis: 15, chess: 5, mens_pickleball: 0, womens_pickleball: 0, carrom: 0, foosball: 0, dance: 0, house_branding: 0, cringe_recreation: 0, shades_of_glory: 0, trivia: 4,
     },
+    negative: 0,
   },
   {
     teamId: 'green',
     points: {
       football: 20, mens_cricket: 10, womens_cricket: 0, table_tennis: 0, chess: 0, mens_pickleball: 0, womens_pickleball: 0, carrom: 0, foosball: 0, dance: 0, house_branding: 1, cringe_recreation: 7, shades_of_glory: 0, trivia: 4,
     },
+    negative: 0,
   },
   {
     teamId: 'blue',
     points: {
       football: 0, mens_cricket: 10, womens_cricket: 5, table_tennis: 5, chess: 0, mens_pickleball: 0, womens_pickleball: 0, carrom: 10, foosball: 0, dance: 2, house_branding: 4, cringe_recreation: 9, shades_of_glory: 0, trivia: 7,
     },
+    negative: 0,
   },
   {
     teamId: 'pink',
     points: {
       football: 10, mens_cricket: 10, womens_cricket: 10, table_tennis: 5, chess: 5, mens_pickleball: 0, womens_pickleball: 0, carrom: 0, foosball: 0, dance: 0, house_branding: 1, cringe_recreation: 4, shades_of_glory: 5, trivia: 11,
     },
+    negative: 0,
   },
   {
     teamId: 'teal',
     points: {
       football: 20, mens_cricket: 0, womens_cricket: 0, table_tennis: 10, chess: 10, mens_pickleball: 0, womens_pickleball: 0, carrom: 5, foosball: 0, dance: 0, house_branding: 5, cringe_recreation: 6, shades_of_glory: 0, trivia: 8,
     },
+    negative: 0,
   },
   {
     teamId: 'brown',
     points: {
       football: 10, mens_cricket: 0, womens_cricket: 10, table_tennis: 0, chess: 0, mens_pickleball: 0, womens_pickleball: 0, carrom: 5, foosball: 0, dance: 0, house_branding: 1, cringe_recreation: 8, shades_of_glory: 3, trivia: 11,
     },
+    negative: 0,
   },
   {
     teamId: 'purple',
     points: {
       football: 10, mens_cricket: 10, womens_cricket: 5, table_tennis: 0, chess: 0, mens_pickleball: 0, womens_pickleball: 0, carrom: 5, foosball: 0, dance: 2, house_branding: 0, cringe_recreation: 8, shades_of_glory: 0, trivia: 1,
     },
+    negative: 0,
   },
 ];
 
@@ -435,40 +443,40 @@ export const BRACKET = {
     final: { team1: null, team2: null, winner: null },
   },
   table_tennis: {
-    sfDate: 'Apr 30', finalDate: 'May 6',
-    sf1:   { team1: null, team2: null, winner: null },
-    sf2:   { team1: null, team2: null, winner: null },
-    final: { team1: null, team2: null, winner: null },
+    sfDate: 'May 6', finalDate: 'May 6',
+    sf1:   { team1: 'red',    team2: 'yellow', winner: 'yellow' },
+    sf2:   { team1: 'teal',   team2: 'green',  winner: 'teal'   },
+    final: { team1: 'yellow', team2: 'teal',   winner: 'teal'   },
   },
   chess: {
-    sfDate: 'Apr 30', finalDate: 'May 6',
-    sf1:   { team1: null, team2: null, winner: null },
-    sf2:   { team1: null, team2: null, winner: null },
-    final: { team1: null, team2: null, winner: null },
+    sfDate: 'May 5', finalDate: 'May 6',
+    sf1:   { team1: 'pink',   team2: 'teal',   winner: 'pink'   },
+    sf2:   { team1: 'yellow', team2: 'blue',   winner: 'yellow' },
+    final: { team1: 'pink',   team2: 'yellow', winner: 'pink'   },
   },
   carrom: {
-    sfDate: 'Apr 30', finalDate: 'May 6',
-    sf1:   { team1: null, team2: null, winner: null },
-    sf2:   { team1: null, team2: null, winner: null },
-    final: { team1: null, team2: null, winner: null },
+    sfDate: 'May 5', finalDate: 'May 6',
+    sf1:   { team1: 'yellow', team2: 'brown',  winner: 'brown' },
+    sf2:   { team1: 'blue',   team2: 'purple', winner: 'blue'  },
+    final: { team1: 'brown',  team2: 'blue',   winner: 'brown' },
   },
   mens_pickleball: {
     sfDate: 'May 4', finalDate: 'May 4',
-    sf1:   { team1: null, team2: null, winner: null },
-    sf2:   { team1: null, team2: null, winner: null },
-    final: { team1: null, team2: null, winner: null },
+    sf1:   { team1: 'teal', team2: 'red',    winner: 'teal' },
+    sf2:   { team1: 'blue', team2: 'purple', winner: 'blue' },
+    final: { team1: 'teal', team2: 'blue',   winner: 'teal' },
   },
   womens_pickleball: {
     sfDate: 'May 4', finalDate: 'May 4',
-    sf1:   { team1: null, team2: null, winner: null },
-    sf2:   { team1: null, team2: null, winner: null },
-    final: { team1: null, team2: null, winner: null },
+    sf1:   { team1: 'yellow', team2: 'pink',   winner: 'yellow' },
+    sf2:   { team1: 'teal',   team2: 'purple', winner: 'purple' },
+    final: { team1: 'yellow', team2: 'purple', winner: 'purple' },
   },
   foosball: {
     sfDate: 'May 5', finalDate: 'May 6',
-    sf1:   { team1: null, team2: null, winner: null },
-    sf2:   { team1: null, team2: null, winner: null },
-    final: { team1: null, team2: null, winner: null },
+    sf1:   { team1: 'red',   team2: 'pink',   winner: 'red'    },
+    sf2:   { team1: 'green', team2: 'yellow', winner: 'yellow' },
+    final: { team1: 'red',   team2: 'yellow', winner: 'yellow' },
   },
 };
 
